@@ -9,18 +9,22 @@
         layout="@layout/include_header" />
 
     <FrameLayout
-        android:id="@+id/nearby_layout_content"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/nearby_header"
-        android:fadingEdge="none"
-        android:gravity="center" />
-
-    <ImageView
-        android:layout_width="fill_parent"
+        android:id="@+id/fl_videocontent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/nearby_header"
-        android:background="@drawable/bg_topbar_shadow"
-        android:focusable="false" />
+        android:layout_below="@id/nearby_header" >
+
+        <com.hangzhou.tonight.view.XListView
+            android:id="@+id/promotion_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/white"
+            android:divider="@null"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="none"
+            android:visibility="visible" >
+        </com.hangzhou.tonight.view.XListView>
+    </FrameLayout>
+    
 
 </RelativeLayout>

@@ -1,17 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/background_normal"
+    android:background="#270544"
     android:orientation="vertical" >
-
-    <include
-        android:id="@+id/login_header"
-        layout="@layout/include_header" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/login_header"
         android:orientation="vertical" >
 
         <ScrollView
@@ -22,53 +17,145 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="vertical"
                 android:paddingLeft="10dip"
                 android:paddingRight="10dip"
-                android:paddingTop="15dip" >
+                android:paddingTop="@dimen/x200" >
 
-                <EditText
-                    android:id="@+id/login_et_account"
+                <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dip"
-                    android:background="@drawable/edittext_default"
-                    android:hint="手机号码/邮箱地址/陌陌号"
-                    android:inputType="text"
-                    android:singleLine="true" />
+                    android:gravity="center"
+                    android:orientation="vertical" >
 
-                <EditText
-                    android:id="@+id/login_et_pwd"
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dip"
+                        android:gravity="center"
+                        android:text="不夜城"
+                        android:textSize="@dimen/x40" />
+
+                     <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dip"
-                    android:background="@drawable/edittext_default"
-                    android:hint="输入密码"
-                    android:imeOptions="actionDone"
-                    android:inputType="textPassword"
-                    android:singleLine="true" />
+                    android:gravity="center"
+                    android:paddingTop="@dimen/x30"
+                    android:orientation="vertical" >
+                    <EditText
+                        android:id="@+id/login_et_account"
+                        android:layout_width="@dimen/x500"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginBottom="8dip"
+                        android:background="@null"
+                        android:drawableLeft="@drawable/user"
+                        android:hint="请输入手机号码"
+                        android:inputType="text"
+                        android:singleLine="true" />
 
-                <com.hangzhou.tonight.view.HandyTextView
-                    android:id="@+id/login_htv_forgotpassword"
-                    android:layout_width="wrap_content"
+                    <View
+                        android:layout_width="@dimen/x500"
+                        android:layout_height="@dimen/x1"
+                        android:background="#fffff5"
+                         >
+                        </View>
+                    </LinearLayout>
+                    
+                      <LinearLayout
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dip"
-                    android:clickable="true"
-                    android:text="如果忘记密码请点击这里"
-                    android:textColor="@color/text_color_selector_default"
-                    android:textSize="16sp" />
+                    android:gravity="center"
+                    android:paddingTop="@dimen/x30"
+                    android:orientation="vertical" >
+                    <EditText
+                        android:id="@+id/login_et_pwd"
+                        android:layout_width="@dimen/x500"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dip"
+                        android:gravity="center"
+                        android:background="@null"
+                        android:drawableLeft="@drawable/password"
+                        android:hint="请输入密码"
+                        android:imeOptions="actionDone"
+                        android:inputType="textPassword"
+                        android:singleLine="true" />
 
-                <com.hangzhou.tonight.view.HandyTextView
-                    android:id="@+id/login_htv_selectcountrycode"
-                    android:layout_width="wrap_content"
+                    <View
+                        android:layout_width="@dimen/x500"
+                        android:layout_height="@dimen/x1"
+                        android:background="#fffff5"
+                         >
+                        </View>
+                    </LinearLayout>
+                    <Button
+                        android:id="@+id/login_btn_login"
+                        android:layout_width="@dimen/x460"
+                        android:layout_height="@dimen/x90"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/x40"
+                        android:background="@drawable/bt_lianxi_bg"
+                        android:text="登  录"
+                        android:textSize="@dimen/x40" />
+
+                    <com.hangzhou.tonight.view.HandyTextView
+                        android:id="@+id/login_btn_register"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dip"
+                        android:clickable="true"
+                        android:text="还没有账号快速注册  >"
+                        android:textColor="@color/text_color_selector_default"
+                        android:textSize="16sp" />
+
+                    <com.hangzhou.tonight.view.HandyTextView
+                        android:id="@+id/login_htv_selectcountrycode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dip"
+                        android:clickable="true"
+                        android:text="第三方合作平台登录"
+                        android:textColor="@color/text_color_selector_default"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:text="选择手机区号"
-                    android:textColor="@color/text_color_selector_default"
-                    android:textSize="16sp" />
+                    android:gravity="center"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="10dip"
+                    android:paddingTop="@dimen/x50" >
+
+                    <ImageView
+                        android:id="@+id/im_qq"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/qqx" >
+                    </ImageView>
+
+                    <ImageView
+                        android:id="@+id/im_wechat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/wechatx" >
+                    </ImageView>
+
+                    <ImageView
+                        android:id="@+id/im_sina"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/sinax" >
+                    </ImageView>
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
 
+        <!--
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -81,7 +168,7 @@
             android:paddingTop="4dip" >
 
             <Button
-                android:id="@+id/login_btn_register"
+                android:id="@+id/"
                 android:layout_width="wrap_content"
                 android:layout_height="42dip"
                 android:layout_marginRight="9dip"
@@ -93,7 +180,7 @@
                 android:textSize="14sp" />
 
             <Button
-                android:id="@+id/login_btn_login"
+                android:id="@+id/"
                 android:layout_width="wrap_content"
                 android:layout_height="42dip"
                 android:layout_marginLeft="9dip"
@@ -104,6 +191,7 @@
                 android:textColor="@color/profile_bottom_text_color"
                 android:textSize="14sp" />
         </LinearLayout>
+        -->
     </LinearLayout>
 
     <ImageView

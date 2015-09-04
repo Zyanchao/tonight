@@ -73,6 +73,21 @@ public static boolean resolveuserResult(String json){
 		
 	}
 	
+	/**
+	* @Title: resolveuserLogin 
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @param @param result
+	* @param @return    设定文件 
+	* @return boolean    返回类型 
+	* @throws
+	 */
+	public static boolean resolveuserPromotionList(String result){
+		
+		
+		return true;
+		
+	}
+	
 
 	/**
 	 * 解析附近个人Json数据

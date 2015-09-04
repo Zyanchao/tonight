@@ -43,6 +43,7 @@ import com.hangzhou.tonight.util.PreferenceConstants;
 import com.hangzhou.tonight.util.PreferenceUtils;
 import com.hangzhou.tonight.util.RC4Utils;
 import com.hangzhou.tonight.util.T;
+import com.hangzhou.tonight.view.HandyTextView;
 import com.hangzhou.tonight.view.HeaderLayout;
 import com.hangzhou.tonight.view.HeaderLayout.HeaderStyle;
 
@@ -54,7 +55,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 
 	private HeaderLayout mHeaderLayout;
 	private Button mLoginBtn;
-	private Button mRegisterBtn;
+	private HandyTextView mRegisterBtn;
 	private EditText mAccountEt;
 	private EditText mPasswordEt;
 
@@ -141,14 +142,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 
 	@Override
 	protected void initViews() {
-		mHeaderLayout = (HeaderLayout) findViewById(R.id.login_header);
-		mHeaderLayout.init(HeaderStyle.DEFAULT_TITLE);
-		mHeaderLayout.setDefaultTitle("登录", null);
-
+		
 		mAccountEt = (EditText) findViewById(R.id.login_et_account);
 		mPasswordEt = (EditText) findViewById(R.id.login_et_pwd);
 		mLoginBtn = (Button) findViewById(R.id.login_btn_login);
-		mRegisterBtn = (Button) findViewById(R.id.login_btn_register);
+		mRegisterBtn = (HandyTextView) findViewById(R.id.login_btn_register);
 
 	}
 

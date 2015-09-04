@@ -1,31 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffffff" >
+        android:layout_height="fill_parent" >
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/l1"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
 
             <FrameLayout
                 android:id="@android:id/tabcontent"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_above="@android:id/tabs"
-                android:background="@color/background_normal" />
+                android:layout_height="match_parent"
+                android:layout_weight="1.62" />
 
             <TabWidget
                 android:id="@android:id/tabs"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:divider="@null" />
-        </RelativeLayout>
-    </LinearLayout>
+                android:layout_height="0.0px"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/tab1"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/custom_tab" />
+    </RelativeLayout>
 
 </TabHost>

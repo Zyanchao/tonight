@@ -67,7 +67,6 @@ public class HeaderLayout extends LinearLayout {
 		mHeader = mInflater.inflate(R.layout.common_headerbar, null);
 		addView(mHeader);
 		initViews();
-
 	}
 
 	public void initViews() {

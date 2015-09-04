@@ -10,6 +10,16 @@
         <attr name="metaButtonBarStyle" format="reference" />
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
-      <attr name="SwipeBackLayoutStyle" format="reference" />
 
+    <attr name="SwipeBackLayoutStyle" format="reference" />
+
+    <!-- hank 添加 -->
+    <attr name="tbarviewStyle" format="reference" />
+	<attr name="textview_with_deviderStyle" format="reference" />
+	<declare-styleable name="TextViewWithDevider">
+		<attr name="text" format="string" />
+		<attr name="allow_default" format="boolean" />
+		<attr name="drawableLeft" format="reference" />
+		<attr name="drawableRight" format="reference" />
+	</declare-styleable>
 </resources>

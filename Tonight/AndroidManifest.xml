@@ -24,6 +24,17 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
+        
+        
+        <activity
+            android:name="com.hangzhou.tonight.module.individual.activity.IndividualActivity">
+        </activity>
+        
+        <activity
+            android:name=".maintabs.MainActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        
         <activity
             android:name=".WelcomeActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -35,11 +46,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".maintabs.MainActivity"
-            android:label="@string/title_activity_main" >
-        </activity>
-        <activity
             android:name=".LoginActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_login" >
         </activity>
         
@@ -59,6 +68,12 @@
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
+        <activity
+            android:name="com.hangzhou.tonight.maintabs.MerchantsHomeListActivity"
+            android:label="@string/title_activity_register" >
+        </activity>
+        
+        
         
          <activity
             android:name=".maintabs.BusinessActivity"
@@ -71,7 +86,15 @@
         </activity>
         
           <activity
-            android:name=".maintabs.PromotionActivity"
+            android:name="com.hangzhou.tonight.activity.PromotionActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+          <activity
+            android:name="com.hangzhou.tonight.activity.MerchantDetailActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+          <activity
+            android:name="com.hangzhou.tonight.activity.PromotionDetailActivity"
             android:label="@string/title_activity_main" >
         </activity>
         
@@ -91,6 +114,15 @@
             android:label="@string/title_activity_main" >
         </activity>
                
+           
+             <!-- 基础FragmentActivity -->
+        <activity android:name="com.hangzhou.tonight.module.base.BaseSingeFragmentActivity"></activity>
+        <!-- 我的订单模块 -->   
+        <activity android:name="com.hangzhou.tonight.module.individual.activity.MyOrderActivity" android:label="@string/individual_my_order"></activity>
+        <!-- 我的账户模块 -->
+        <activity android:name="com.hangzhou.tonight.module.individual.activity.MyAccountActivity" android:label="@string/individual_my_account"></activity>
+        <!-- 消息模块 -->
+        <activity android:name="com.hangzhou.tonight.module.message.activity.MessageMainActivity" android:label="@string/message"></activity>
     </application>
 
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />

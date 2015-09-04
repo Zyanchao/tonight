@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="54dip"
-    android:background="@drawable/bg_topbar"
+    android:background="#201326"
     android:focusable="true"
     android:gravity="center_vertical"
     android:orientation="horizontal" >
@@ -10,10 +10,10 @@
     <ImageView
         android:id="@+id/header_iv_logo"
         android:layout_width="40dip"
-        android:layout_height="40dip"
+        android:layout_height="54dip"
         android:layout_marginLeft="6dip"
         android:layout_marginRight="6dip"
-        android:src="@drawable/ic_topbar_logo"
+        android:src="@drawable/left_arrow"
         android:scaleType="centerInside" />
 
     <LinearLayout
@@ -51,6 +51,7 @@
                 android:layout_marginTop="-2dip"
                 android:gravity="center_vertical"
                 android:shadowDx="0.0"
+                android:text="dff"
                 android:shadowDy="-1.0"
                 android:shadowRadius="1.0"
                 android:textColor="#FF7F7F7F"

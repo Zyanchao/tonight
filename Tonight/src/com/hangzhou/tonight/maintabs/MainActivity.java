@@ -1,5 +1,7 @@
 package com.hangzhou.tonight.maintabs;
 
+import java.lang.reflect.Field;
+
 import android.app.TabActivity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -9,11 +11,17 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import com.hangzhou.tonight.ChatActivity;
 import com.hangzhou.tonight.LoginActivity;
 import com.hangzhou.tonight.R;
+import com.hangzhou.tonight.activity.PromotionActivity;
+import com.hangzhou.tonight.module.individual.activity.IndividualActivity;
 import com.hangzhou.tonight.service.IConnectionStatusCallback;
 import com.hangzhou.tonight.service.XXService;
 import com.hangzhou.tonight.util.L;
@@ -25,10 +33,15 @@ import com.hangzhou.tonight.util.XMPPHelper;
 @SuppressWarnings("deprecation")
 public class MainActivity extends TabActivity implements IConnectionStatusCallback{
 
-	private TabHost mTabHost;
 	private XXService mXxService;
 	
-	
+	private TabHost mTabHost;
+
+	private FrameLayout layout1, layout2, layout3, layout4,layout5;
+
+	private ImageView tab_home, tab_home_click, tab_bang, tab_bang_click;
+	private TextView tab_home_text_click, tab_home_text, tab_bang_text,
+			tab_bang_text_click;
 	
 	
 	ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -75,14 +88,94 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 		startService(new Intent(MainActivity.this, XXService.class));
 		setContentView(R.layout.activity_main);
 		initViews();
-		initTabs();
+	//	initTabs();
 	}
 	
 	private void initViews() {
 		mTabHost = getTabHost();
-	}
+		Intent intent1 = new Intent();
+		intent1.setClass(MainActivity.this, MerchantsHomeListActivity.class);
+		
+		Intent intent2 = new Intent();
+		intent2.setClass(MainActivity.this, BusinessActivity.class);
+		
+		Intent intent3 = new Intent();
+		intent3.setClass(MainActivity.this, PromotionActivity.class);
+		
+		Intent intent4 = new Intent();
+		intent4.setClass(MainActivity.this, UserSettingActivity.class);
+		
+		Intent intent5 = new Intent();
+		intent5.setClass(MainActivity.this, IndividualActivity.class);
+		
+		layout1 = (FrameLayout) findViewById(R.id.frame_home);//首页
+		layout2 = (FrameLayout) findViewById(R.id.frame_forum);//发现
+		layout3 = (FrameLayout) findViewById(R.id.frame_core);//活动
+		layout4 = (FrameLayout) findViewById(R.id.frame_message);//消息
+		layout5 = (FrameLayout) findViewById(R.id.frame_persional);//个人
 
-	private void initTabs() {
+		layout1.setOnClickListener(l);
+		layout2.setOnClickListener(l);
+		layout3.setOnClickListener(l);
+		layout4.setOnClickListener(l);
+		layout5.setOnClickListener(l);
+
+		tab_home = (ImageView) findViewById(R.id.tab_home_click);
+		tab_bang = (ImageView) findViewById(R.id.tab_bang);
+		
+		//http://www.cnblogs.com/liuqxFuture/p/3343675.html
+		//http://blog.csdn.net/icewst/article/details/8084691
+		 	try{
+	           Field current = mTabHost.getClass().getDeclaredField("mCurrentTab");
+	           current.setAccessible(true);
+	           current.setInt(mTabHost, 0);
+	       }catch (Exception e){
+	           e.printStackTrace();
+	       }
+		 	mTabHost.addTab(mTabHost.newTabSpec("1").setIndicator("1").setContent(intent1));
+		 	mTabHost.addTab(mTabHost.newTabSpec("2").setIndicator("2").setContent(intent2));
+		 	mTabHost.addTab(mTabHost.newTabSpec("3").setIndicator("3").setContent(intent3));
+		 	mTabHost.addTab(mTabHost.newTabSpec("4").setIndicator("4").setContent(intent4));
+		 	mTabHost.addTab(mTabHost.newTabSpec("5").setIndicator("5").setContent(intent5));
+	       //mCurrentTab恢复到－1状态
+	       try{
+	           Field current = mTabHost.getClass().getDeclaredField("mCurrentTab");
+	           current.setAccessible(true);
+	           current.set(mTabHost, -1);
+	       }catch (Exception e){ e.printStackTrace();  }
+		
+	       mTabHost.setCurrentTab(1);//默认中间的
+	}
+	
+	OnClickListener l = new OnClickListener() {
+
+		public void onClick(View arg0) {
+			// TODO Auto-generated method stub
+			if (arg0 == layout1) {
+				mTabHost.setCurrentTabByTag("1");
+
+				tab_home.setImageResource(R.drawable.tab_home_click);
+				tab_bang.setImageResource(R.drawable.tab_bang);
+
+			} else if (arg0 == layout2) {
+
+				tab_home.setImageResource(R.drawable.tab_home);
+				tab_bang.setImageResource(R.drawable.tab_bang_click);
+
+				mTabHost.setCurrentTabByTag("2");
+
+			} else if(arg0 == layout3){
+				mTabHost.setCurrentTabByTag("3");
+			} else if(arg0 == layout4){
+				mTabHost.setCurrentTabByTag("4");
+			}else if(arg0 == layout5){
+				mTabHost.setCurrentTabByTag("5");
+			}
+
+		}
+	};
+
+	/*private void initTabs() {
 		LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
 
 		View nearbyView = inflater.inflate(
@@ -129,7 +222,7 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 				UserSettingActivity.class));
 		mTabHost.addTab(userSettingTabSpec);
 		
-	}
+	}*/
 	
 	
 	@Override
