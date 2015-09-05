@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#270544"
+    android:background="#2F2B2F"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -34,8 +34,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dip"
                         android:gravity="center"
-                        android:text="不夜城"
-                        android:textSize="@dimen/x40" />
+                        android:text="不夜程"
+                        android:textColor="#7835A3"
+                        android:textSize="@dimen/x45" />
 
                      <LinearLayout
                     android:layout_width="fill_parent"
@@ -52,7 +53,8 @@
                         android:background="@null"
                         android:drawableLeft="@drawable/user"
                         android:hint="请输入手机号码"
-                        android:inputType="text"
+                        android:textColor="@color/white"
+                        android:inputType="phone"
                         android:singleLine="true" />
 
                     <View
@@ -77,6 +79,7 @@
                         android:gravity="center"
                         android:background="@null"
                         android:drawableLeft="@drawable/password"
+                        android:textColor="@color/white"
                         android:hint="请输入密码"
                         android:imeOptions="actionDone"
                         android:inputType="textPassword"
@@ -95,7 +98,8 @@
                         android:layout_height="@dimen/x90"
                         android:layout_gravity="center"
                         android:layout_marginTop="@dimen/x40"
-                        android:background="@drawable/bt_lianxi_bg"
+                        android:background="@drawable/bt_login_bg"
+                        android:textColor="#666666"
                         android:text="登  录"
                         android:textSize="@dimen/x40" />
 
@@ -106,7 +110,7 @@
                         android:layout_marginTop="30dip"
                         android:clickable="true"
                         android:text="还没有账号快速注册  >"
-                        android:textColor="@color/text_color_selector_default"
+                        android:textColor="#ffffff"
                         android:textSize="16sp" />
 
                     <com.hangzhou.tonight.view.HandyTextView
@@ -115,8 +119,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dip"
                         android:clickable="true"
+                        android:textColor="#ffffff"
                         android:text="第三方合作平台登录"
-                        android:textColor="@color/text_color_selector_default"
                         android:textSize="16sp" />
                 </LinearLayout>
 

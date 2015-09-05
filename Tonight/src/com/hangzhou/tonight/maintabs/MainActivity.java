@@ -39,7 +39,7 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 
 	private FrameLayout layout1, layout2, layout3, layout4,layout5;
 
-	private ImageView tab_home, tab_home_click, tab_bang, tab_bang_click;
+	private ImageView tab_home,  tab_bang,tab_act, tab_message,tab_persone;
 	private TextView tab_home_text_click, tab_home_text, tab_bang_text,
 			tab_bang_text_click;
 	
@@ -122,6 +122,10 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 
 		tab_home = (ImageView) findViewById(R.id.tab_home_click);
 		tab_bang = (ImageView) findViewById(R.id.tab_bang);
+		tab_act = (ImageView) findViewById(R.id.tab_act);
+		tab_message = (ImageView) findViewById(R.id.tab_message);
+		tab_persone = (ImageView) findViewById(R.id.tab_person);
+		
 		
 		//http://www.cnblogs.com/liuqxFuture/p/3343675.html
 		//http://blog.csdn.net/icewst/article/details/8084691
@@ -144,7 +148,7 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 	           current.set(mTabHost, -1);
 	       }catch (Exception e){ e.printStackTrace();  }
 		
-	       mTabHost.setCurrentTab(1);//默认中间的
+	       mTabHost.setCurrentTab(2);//默认中间的
 	}
 	
 	OnClickListener l = new OnClickListener() {
@@ -153,25 +157,44 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 			// TODO Auto-generated method stub
 			if (arg0 == layout1) {
 				mTabHost.setCurrentTabByTag("1");
-
 				tab_home.setImageResource(R.drawable.tab_home_click);
 				tab_bang.setImageResource(R.drawable.tab_bang);
+				tab_act.setImageResource(R.drawable.tab_ask);
+				tab_message.setImageResource(R.drawable.tab_message);
+				tab_persone.setImageResource(R.drawable.tab_person);
 
 			} else if (arg0 == layout2) {
 
+				tab_act.setImageResource(R.drawable.tab_ask);
 				tab_home.setImageResource(R.drawable.tab_home);
 				tab_bang.setImageResource(R.drawable.tab_bang_click);
+				tab_message.setImageResource(R.drawable.tab_message);
+				tab_persone.setImageResource(R.drawable.tab_person);
 
 				mTabHost.setCurrentTabByTag("2");
 
 			} else if(arg0 == layout3){
+				tab_act.setImageResource(R.drawable.tab_ask_click);
+				tab_home.setImageResource(R.drawable.tab_home);
+				tab_bang.setImageResource(R.drawable.tab_bang);
+				tab_message.setImageResource(R.drawable.tab_message);
+				tab_persone.setImageResource(R.drawable.tab_person);
 				mTabHost.setCurrentTabByTag("3");
 			} else if(arg0 == layout4){
+				tab_act.setImageResource(R.drawable.tab_ask);
+				tab_home.setImageResource(R.drawable.tab_home);
+				tab_bang.setImageResource(R.drawable.tab_bang);
+				tab_message.setImageResource(R.drawable.tab_message_sel);
+				tab_persone.setImageResource(R.drawable.tab_person);
 				mTabHost.setCurrentTabByTag("4");
 			}else if(arg0 == layout5){
 				mTabHost.setCurrentTabByTag("5");
+				tab_act.setImageResource(R.drawable.tab_ask);
+				tab_home.setImageResource(R.drawable.tab_home);
+				tab_bang.setImageResource(R.drawable.tab_bang);
+				tab_message.setImageResource(R.drawable.tab_message);
+				tab_persone.setImageResource(R.drawable.tab_person_click);
 			}
-
 		}
 	};
 

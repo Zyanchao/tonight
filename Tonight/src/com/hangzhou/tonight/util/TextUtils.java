@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
+import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.text.SpannableString;
@@ -15,6 +16,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
 import android.view.View.OnClickListener;
+import android.widget.EditText;
 
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.view.HandyTextView;
@@ -234,6 +236,30 @@ public class TextUtils {
 		}
 
 		return readedStr;
+	}
+
+	
+
+	private static boolean matchPhone(String text) {
+		if (Pattern.compile("(\\d{11})|(\\+\\d{3,})").matcher(text).matches()) {
+			return true;
+		}
+		return false;
+	}
+
+	private static boolean matchMoMo(String text) {
+		if (Pattern.compile("\\d{7,9}").matcher(text).matches()) {
+			return true;
+		}
+		return false;
+	}
+
+	private static boolean isNull(EditText editText) {
+		String text = editText.getText().toString().trim();
+		if (text != null && text.length() > 0) {
+			return false;
+		}
+		return true;
 	}
 
 }

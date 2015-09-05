@@ -146,7 +146,6 @@ public class WelcomeActivity extends BaseActivity {
 			protected void onPostExecute(String result) {
 				super.onPostExecute(result);
 				System.out.println("打开应用：      " +result);
-				showCustomToast(result);
 			}
 		});
     }

@@ -6,7 +6,7 @@
 
     <include
         android:id="@+id/nearby_header"
-        layout="@layout/include_header" />
+        layout="@layout/common_title_bar" />
 
     <FrameLayout
         android:id="@+id/nearby_layout_content"

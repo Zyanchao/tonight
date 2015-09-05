@@ -98,6 +98,12 @@
             android:label="@string/title_activity_main" >
         </activity>
         
+           <activity
+            android:name="com.hangzhou.tonight.activity.SelectCityActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        
+        
           <activity
             android:name=".maintabs.DiscoverActivity"
             android:label="@string/title_activity_main" >

@@ -34,6 +34,7 @@ import com.hangzhou.tonight.maintabs.MainActivity;
 import com.hangzhou.tonight.service.IConnectionStatusCallback;
 import com.hangzhou.tonight.service.XXService;
 import com.hangzhou.tonight.util.Base64Utils;
+import com.hangzhou.tonight.util.FileUtils;
 import com.hangzhou.tonight.util.HttpRequest;
 import com.hangzhou.tonight.util.JsonResolveUtils;
 import com.hangzhou.tonight.util.JsonUtils;
@@ -246,7 +247,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 				 * { showCustomToast("账号或密码错误,请检查是否输入正确"); }
 				 */
 				System.out.println("用户登录结果：      " +result);
-				showCustomToast(result);
 				boolean success=dealResult(result);
 				if(success){
 					JsonResolveUtils.resolveuserLogin(result);
@@ -328,45 +328,15 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		return success;
 	}
 
-	private boolean matchEmail(String text) {
-		if (Pattern.compile("\\w[\\w.-]*@[\\w.]+\\.\\w+").matcher(text)
-				.matches()) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean matchPhone(String text) {
-		if (Pattern.compile("(\\d{11})|(\\+\\d{3,})").matcher(text).matches()) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean matchMoMo(String text) {
-		if (Pattern.compile("\\d{7,9}").matcher(text).matches()) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean isNull(EditText editText) {
-		String text = editText.getText().toString().trim();
-		if (text != null && text.length() > 0) {
-			return false;
-		}
-		return true;
-	}
-
 	private boolean validateAccount() {
 		mAccount = null;
-		if (isNull(mAccountEt)) {
+		if (FileUtils.isNull(mAccountEt)) {
 			showCustomToast("请输入您的手机号码");
 			mAccountEt.requestFocus();
 			return false;
 		}
 		String account = mAccountEt.getText().toString().trim();
-		if (matchPhone(account)) {
+		if (FileUtils.matchPhone(account)) {
 			if (account.length() < 3) {
 				showCustomToast("账号格式不正确");
 				mAccountEt.requestFocus();

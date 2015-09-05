@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.PopupWindow.OnDismissListener;
 
 import com.hangzhou.tonight.R;
@@ -19,9 +20,10 @@ import com.hangzhou.tonight.view.HeaderSpinner.onSpinnerClickListener;
 
 public class BusinessActivity extends TabItemActivity {
 
-	private HeaderLayout mHeaderLayout;
-	private HeaderSpinner mHeaderSpinner;
+	//private HeaderLayout mHeaderLayout;
+	//private HeaderSpinner mHeaderSpinner;
 	private NearByPeopleFragment mPeopleFragment;
+	private TextView tvBack,tvTitle;
 	//private NearByGroupFragment mGroupFragment;
 
 	//private NearByPopupWindow mPopupWindow;
@@ -38,7 +40,10 @@ public class BusinessActivity extends TabItemActivity {
 
 	@Override
 	protected void initViews() {
-		mHeaderLayout = (HeaderLayout) findViewById(R.id.nearby_header);
+		tvBack = (TextView) findViewById(R.id.tv_header_back);
+		tvTitle = (TextView) findViewById(R.id.tv_title);
+		tvTitle.setText("不夜程");
+		//mHeaderLayout = (HeaderLayout) findViewById(R.id.nearby_header);
 		/*mHeaderLayout.initSearch(new OnSearchClickListener());
 		mHeaderSpinner = mHeaderLayout.setTitleNearBy("附近",
 				new OnSpinnerClickListener(), "附近群组",
@@ -110,7 +115,6 @@ public class BusinessActivity extends TabItemActivity {
 					@Override
 					protected void onPreExecute() {
 						super.onPreExecute();
-						mHeaderLayout.changeSearchState(SearchState.SEARCH);
 					}
 
 					@Override
@@ -126,7 +130,7 @@ public class BusinessActivity extends TabItemActivity {
 					@Override
 					protected void onPostExecute(Boolean result) {
 						super.onPostExecute(result);
-						mHeaderLayout.changeSearchState(SearchState.INPUT);
+						//mHeaderLayout.changeSearchState(SearchState.INPUT);
 						showCustomToast("未找到搜索的群");
 					}
 				});
@@ -140,7 +144,7 @@ public class BusinessActivity extends TabItemActivity {
 
 		@Override
 		public void onClick() {
-			mHeaderLayout.showSearch();
+			//mHeaderLayout.showSearch();
 		}
 	}
 
@@ -171,13 +175,13 @@ public class BusinessActivity extends TabItemActivity {
 
 	@Override
 	public void onBackPressed() {
-		if (mHeaderLayout.searchIsShowing()) {
+		/*if (mHeaderLayout.searchIsShowing()) {
 			clearAsyncTask();
 			mHeaderLayout.dismissSearch();
 			mHeaderLayout.clearSearch();
 			mHeaderLayout.changeSearchState(SearchState.INPUT);
 		} else {
 			finish();
-		}
+		}*/
 	}
 }

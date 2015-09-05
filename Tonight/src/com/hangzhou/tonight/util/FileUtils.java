@@ -3,9 +3,11 @@ package com.hangzhou.tonight.util;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.regex.Pattern;
 
 import android.net.Uri;
 import android.os.Environment;
+import android.widget.EditText;
 
 /**
  * @fileName FileUtils.java
@@ -139,4 +141,36 @@ public class FileUtils {
 		}
 		return fileSizeString;
 	}
+	
+
+	public static boolean matchEmail(String text) {
+		if (Pattern.compile("\\w[\\w.-]*@[\\w.]+\\.\\w+").matcher(text)
+				.matches()) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean matchPhone(String text) {
+		if (Pattern.compile("(\\d{11})|(\\+\\d{3,})").matcher(text).matches()) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean matchMoMo(String text) {
+		if (Pattern.compile("\\d{7,9}").matcher(text).matches()) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean isNull(EditText editText) {
+		String text = editText.getText().toString().trim();
+		if (text != null && text.length() > 0) {
+			return false;
+		}
+		return true;
+	}
+
 }

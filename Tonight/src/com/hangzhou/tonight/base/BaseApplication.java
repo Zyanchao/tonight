@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,8 +28,12 @@ import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.entity.NearByGroup;
 import com.hangzhou.tonight.entity.NearByPeople;
 import com.hangzhou.tonight.service.XXService;
+import com.hangzhou.tonight.util.MyPreference;
 
 public class BaseApplication extends Application {
+	
+	private static  BaseApplication instance = null;
+	public static Context mContext;
 	private Bitmap mDefaultAvatar;
 	private static final String AVATAR_DIR = "avatar/";
 	private static final String PHOTO_ORIGINAL_DIR = "photo/original/";
@@ -47,14 +52,24 @@ public class BaseApplication extends Application {
 	public static List<String> mEmoticons_Zem = new ArrayList<String>();
 	public static List<String> mEmoticons_Zemoji = new ArrayList<String>();
 
+	public MyPreference myPreference;
 	public LocationClient mLocationClient;
 	public double mLongitude;
 	public double mLatitude;
 	public String mCity;
 
+	
+	
+	
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		
+		instance = this;
+		if (mContext == null) {
+			mContext = this;
+		}
 		mDefaultAvatar = BitmapFactory.decodeResource(getResources(),
 				R.drawable.ic_common_def_header);
 	/*	for (int i = 1; i < 64; i++) {
@@ -77,7 +92,7 @@ public class BaseApplication extends Application {
 */
 		
 		startService(new Intent(getApplicationContext(), XXService.class));
-		
+		myPreference = MyPreference.getInstance(this);
 		// 获取当前用户位置
 		mLocationClient = new LocationClient(getApplicationContext());
 		mLocationClient.setAK("60b43d1a9513d904b6aa2948b27b4a20");
@@ -113,13 +128,20 @@ public class BaseApplication extends Application {
 					}
 				}
 				System.out.println("您当前的城市是:\n" + mCity);
-
+				myPreference.setLocation_j(mLongitude+"");
+				myPreference.setLocation_w(mLatitude+"");
+				myPreference.setCity(mCity);
 				mLocationClient.stop();
 			}
 		});
 		mLocationClient.start();
 		mLocationClient.requestOfflineLocation();
 		System.out.println("开始获取");
+	}
+
+	
+	public static BaseApplication getInstance() {
+		return instance;
 	}
 
 	@Override

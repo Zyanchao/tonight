@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nearby_layout_root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/nearby_header"
+        layout="@layout/common_title_bar" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <com.ab.view.sliding.AbSlidingPlayView
+                android:id="@+id/mAbSlidingPlayView"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/x280"
+                android:layout_below="@id/nearby_header" >
+            </com.ab.view.sliding.AbSlidingPlayView>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="#2F2B2F"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/x30" >
+
+                <TextView
+                    android:id="@+id/tv_plan_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x20"
+                    android:paddingLeft="@dimen/x15"
+                    android:text="酒吧介绍 ："
+                    android:textColor="#72324F"
+                    android:textSize="@dimen/x40" />
+
+                <TextView
+                    android:id="@+id/course_plan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_plan_tip"
+                    android:ellipsize="none"
+                    android:lineSpacingExtra="@dimen/x10"
+                    android:lineSpacingMultiplier="1.2"
+                    android:maxLines="10"
+                    android:paddingLeft="@dimen/x45"
+                    android:scrollHorizontally="false"
+                    android:text="北京市昌平区沙阳路13号gdffsd"
+                    android:textSize="@dimen/x35" />
+
+                <TextView
+                    android:layout_width="@dimen/x490"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/x15"
+                    android:paddingLeft="@dimen/x15"
+                    android:paddingTop="@dimen/x15"
+                    android:text="酒吧订座热线"
+                    android:textSize="@dimen/x38" />
+
+                <TextView
+                    android:id="@+id/promontion_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_plan_tip"
+                    android:ellipsize="none"
+                    android:lineSpacingExtra="@dimen/x10"
+                    android:lineSpacingMultiplier="1.2"
+                    android:maxLines="10"
+                    android:paddingLeft="@dimen/x45"
+                    android:scrollHorizontally="false"
+                    android:text="400-800-4567"
+                    android:textSize="@dimen/x35" />
+
+                <TextView
+                    android:layout_width="@dimen/x490"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/x15"
+                    android:paddingLeft="@dimen/x15"
+                    android:paddingTop="@dimen/x15"
+                    android:text="活动地址"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/x38" />
+
+                <TextView
+                    android:id="@+id/promontion_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_plan_tip"
+                    android:ellipsize="none"
+                    android:lineSpacingExtra="@dimen/x10"
+                    android:lineSpacingMultiplier="1.2"
+                    android:maxLines="10"
+                    android:paddingLeft="@dimen/x45"
+                    android:scrollHorizontally="false"
+                    android:text="瑞达路科学大道交叉口向北100m"
+                    android:textSize="@dimen/x35" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="#2F2B2F"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/x20" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x20"
+                    android:paddingLeft="@dimen/x15"
+                    android:paddingBottom="@dimen/x15"
+                    android:text="店中活动 ："
+                    android:textColor="#72324F"
+                    android:textSize="@dimen/x40" />
+                <View 
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/x2"
+                    android:background="#2F2B2F"
+                    />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/lv_ohter_acts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="#2F2B2F"
+                android:dividerHeight="@dimen/x2" >
+            </ListView>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="#2F2B2F"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/x20" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x20"
+                    android:paddingLeft="@dimen/x15"
+                    android:text="商家服务 ："
+                    android:textColor="#72324F"
+                    android:textSize="@dimen/x40" />
+
+                <TextView
+                    android:id="@+id/tv_xuzhi1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/tv_plan_tip"
+                    android:ellipsize="none"
+                    android:lineSpacingExtra="@dimen/x10"
+                    android:lineSpacingMultiplier="1.2"
+                    android:maxLines="10"
+                    android:paddingLeft="@dimen/x45"
+                    android:paddingTop="@dimen/x15"
+                    android:scrollHorizontally="false"
+                    android:text="本店提供以下服务："
+                    android:textSize="@dimen/x35" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#383438" >
+
+                    <TextView
+                        android:id="@+id/tv_xuzhi2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="none"
+                        android:lineSpacingExtra="@dimen/x10"
+                        android:lineSpacingMultiplier="1.2"
+                        android:maxLines="10"
+                        android:paddingLeft="@dimen/x45"
+                        android:paddingTop="@dimen/x15"
+                        android:scrollHorizontally="false"
+                        android:text="生日宴会策划"
+                        android:textSize="@dimen/x35" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/x15"
+                        android:src="@drawable/right_arrow" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" 
+                    android:layout_marginTop="@dimen/x3"
+                    android:background="#383438">
+
+                    <TextView
+                        android:id="@+id/tv_xuzhi3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="none"
+                        android:lineSpacingExtra="@dimen/x10"
+                        android:lineSpacingMultiplier="1.2"
+                        android:maxLines="10"
+                        android:paddingLeft="@dimen/x45"
+                        android:paddingTop="@dimen/x15"
+                        android:scrollHorizontally="false"
+                        android:text="预约代驾"
+                        android:textSize="@dimen/x35" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/x15"
+                        android:src="@drawable/right_arrow" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="#2F2B2F"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/x20" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x20"
+                    android:paddingLeft="@dimen/x15"
+                    android:text="评 论 ："
+                    android:textColor="#72324F"
+                    android:textSize="@dimen/x40" />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/lv_pinglun"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="#2F2B2F"
+                android:dividerHeight="@dimen/x1" >
+            </ListView>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
