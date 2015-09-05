@@ -26,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/x30"
+            android:singleLine="true"
             android:text="健身教练私教课健身教练私教课"
             android:textColor="#ffffff"
             android:textSize="@dimen/x30" />
@@ -46,6 +47,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/x40"
             android:paddingLeft="@dimen/x30"
+            android:singleLine="true"
             android:text="健身教练私教课"
             style="@style/text_shadow_style"
             android:textColor="#ffffff" />
