@@ -18,15 +18,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.ab.view.sliding.AbSlidingPlayView;
+import com.ab.view.sliding.AbSlidingPlayView.AbOnItemClickListener;
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.activity.MerchantDetailActivity;
 import com.hangzhou.tonight.activity.PromotionActivity;
@@ -81,6 +86,7 @@ OnClickListener, IXListViewListener{
 	private MerchantListAdapter mAdapter;
 	public List<MerchantEntity> mActives = new ArrayList<MerchantEntity>();
 
+	private AbSlidingPlayView mAbSlidingPlayView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -100,6 +106,19 @@ OnClickListener, IXListViewListener{
 		View mPlayViews = mInflater.inflate(R.layout.merchant_header, null);
 		xListView = (XListView) findViewById(R.id.merchant_list);
 		xListView.addHeaderView(mPlayViews);
+		mAbSlidingPlayView = (AbSlidingPlayView) findViewById(R.id.mAbSlidingPlayView);
+		mAbSlidingPlayView.setNavHorizontalGravity(Gravity.CENTER);
+		// mAbSlidingPlayView.setParentHScrollView(menuLayout);
+		mAbSlidingPlayView.startPlay();
+		mAbSlidingPlayView.setParentListView(xListView);
+		// adapter = new MyAdapter();
+		mAbSlidingPlayView.setOnItemClickListener(new AbOnItemClickListener() {
+
+			@Override
+			public void onClick(int position) {
+				Toast.makeText(mContext, position + "", 1000).show();
+			}
+		});
 	}
 
 	@Override
@@ -114,6 +133,14 @@ OnClickListener, IXListViewListener{
 	protected void init() {
 		mHander = new Handler();
 		tvTitle.setText("不夜程");
+		
+		final View mView = View.inflate(MerchantsHomeListActivity.this,R.layout.play_view_item, null);
+		ImageView mView2 = (ImageView) mView.findViewById(R.id.mPlayImage);
+		/*imageLoader.displayImage(Constants.PIC_CODE
+				+ mCarousels.get(i).getAdvert_img(), mView2,
+				options)*/;
+				
+		mAbSlidingPlayView.addView(mView);
 		
 	}
 	private void initPopupWindow() {

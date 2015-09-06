@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#201326"
     android:orientation="vertical" >
 
     <com.ab.view.sliding.AbSlidingPlayView
@@ -19,21 +18,19 @@
             android:persistentDrawingCache="animation" />
     -->
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/x8"
-        android:background="#f0f0f0" />
+    
 
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content" 
+        android:background="#312D31">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:background="#201326"
+            
             android:orientation="vertical" >
 
             <LinearLayout
@@ -149,6 +146,10 @@
         </LinearLayout>
     </RelativeLayout>
 
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/x30"
+        android:background="#2F2B2F" />
     <!--
            <View
             android:layout_width="match_parent"

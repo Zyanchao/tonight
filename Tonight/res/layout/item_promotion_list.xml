@@ -3,7 +3,7 @@
     android:id="@+id/rl"
     android:layout_width="match_parent"
     android:layout_height="@dimen/x360"
-    android:background="#ffffff"
+    android:background="#312D31"
     android:minHeight="@dimen/x360" >
 
     <ImageView
@@ -16,10 +16,35 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/x360"
+        android:layout_alignParentTop="true"
         android:background="#26000000"
-        android:layout_marginTop="@dimen/x90" 
         android:orientation="horizontal" >
 
+    </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_heart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x30" >
+            
+             <TextView
+            android:id="@+id/tv_title"
+            style="@style/text_shadow_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/x30"
+            android:singleLine="true"
+            android:text="健身教练私教课"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/x40" />
+
+             </RelativeLayout>
+             
+              <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/x90" >
         <TextView
             android:id="@+id/tv_describe"
             style="@style/text_shadow_style"
@@ -30,39 +55,10 @@
             android:text="健身教练私教课健身教练私教课"
             android:textColor="#ffffff"
             android:textSize="@dimen/x30" />
-
-    </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_heart"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/x30" >
-            
-            
-            
-            <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/x40"
-            android:paddingLeft="@dimen/x30"
-            android:singleLine="true"
-            android:text="健身教练私教课"
-            style="@style/text_shadow_style"
-            android:textColor="#ffffff" />
-            
-            
         </RelativeLayout>
         
         
         
-         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/x250" >
-            
-        </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -96,7 +92,7 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_marginBottom="@dimen/x5"
             android:orientation="horizontal" >
 
             <TextView

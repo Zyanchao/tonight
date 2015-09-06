@@ -22,6 +22,7 @@ import com.hangzhou.tonight.LoginActivity;
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.activity.PromotionActivity;
 import com.hangzhou.tonight.module.individual.activity.IndividualActivity;
+import com.hangzhou.tonight.module.message.activity.MessageMainActivity;
 import com.hangzhou.tonight.service.IConnectionStatusCallback;
 import com.hangzhou.tonight.service.XXService;
 import com.hangzhou.tonight.util.L;
@@ -103,7 +104,7 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 		intent3.setClass(MainActivity.this, PromotionActivity.class);
 		
 		Intent intent4 = new Intent();
-		intent4.setClass(MainActivity.this, UserSettingActivity.class);
+		intent4.setClass(MainActivity.this, MessageMainActivity.class);
 		
 		Intent intent5 = new Intent();
 		intent5.setClass(MainActivity.this, IndividualActivity.class);
@@ -158,7 +159,7 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 			if (arg0 == layout1) {
 				mTabHost.setCurrentTabByTag("1");
 				tab_home.setImageResource(R.drawable.tab_home_click);
-				tab_bang.setImageResource(R.drawable.tab_bang);
+				tab_bang.setImageResource(R.drawable.find);
 				tab_act.setImageResource(R.drawable.tab_ask);
 				tab_message.setImageResource(R.drawable.tab_message);
 				tab_persone.setImageResource(R.drawable.tab_person);
@@ -167,7 +168,7 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 
 				tab_act.setImageResource(R.drawable.tab_ask);
 				tab_home.setImageResource(R.drawable.tab_home);
-				tab_bang.setImageResource(R.drawable.tab_bang_click);
+				tab_bang.setImageResource(R.drawable.findsel);
 				tab_message.setImageResource(R.drawable.tab_message);
 				tab_persone.setImageResource(R.drawable.tab_person);
 
