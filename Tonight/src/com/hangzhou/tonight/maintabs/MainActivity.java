@@ -177,14 +177,14 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 			} else if(arg0 == layout3){
 				tab_act.setImageResource(R.drawable.tab_ask_click);
 				tab_home.setImageResource(R.drawable.tab_home);
-				tab_bang.setImageResource(R.drawable.tab_bang);
+				tab_bang.setImageResource(R.drawable.find);
 				tab_message.setImageResource(R.drawable.tab_message);
 				tab_persone.setImageResource(R.drawable.tab_person);
 				mTabHost.setCurrentTabByTag("3");
 			} else if(arg0 == layout4){
 				tab_act.setImageResource(R.drawable.tab_ask);
 				tab_home.setImageResource(R.drawable.tab_home);
-				tab_bang.setImageResource(R.drawable.tab_bang);
+				tab_bang.setImageResource(R.drawable.find);
 				tab_message.setImageResource(R.drawable.tab_message_sel);
 				tab_persone.setImageResource(R.drawable.tab_person);
 				mTabHost.setCurrentTabByTag("4");
@@ -192,7 +192,7 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 				mTabHost.setCurrentTabByTag("5");
 				tab_act.setImageResource(R.drawable.tab_ask);
 				tab_home.setImageResource(R.drawable.tab_home);
-				tab_bang.setImageResource(R.drawable.tab_bang);
+				tab_bang.setImageResource(R.drawable.find);
 				tab_message.setImageResource(R.drawable.tab_message);
 				tab_persone.setImageResource(R.drawable.tab_person_click);
 			}

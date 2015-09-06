@@ -34,7 +34,6 @@
                 android:layout_gravity="bottom|center"
                 android:layout_marginBottom="2.0dip"
                 android:text="首页"
-                android:textColor="#0aca4e"
                 android:textSize="10.0dip" />
         </FrameLayout>
 

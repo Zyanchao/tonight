@@ -57,10 +57,10 @@ public class IndividualActivity extends CustomActionActivity {
 				BaseSingeFragmentActivity.startActivity(getActivity(), MyCollectionFragment.class, new TbarViewModel(getResources().getString(R.string.individual_my_collection)));
 			}else if(v == mInvitationCode){
 				BaseSingeFragmentActivity.startActivity(getActivity(), InvitationCodeFragment.class, new TbarViewModel(getResources().getString(R.string.individual_invitation_code)));
-			}else if(v == mMycommission){
+			}/*else if(v == mMycommission){
 				//TODO 临时测试
 				ActivityHelper.startActivity(getActivity(), MessageMainActivity.class);
-			}
+			}*/
 		}
 	};
 	
