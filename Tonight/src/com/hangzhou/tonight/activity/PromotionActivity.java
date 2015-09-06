@@ -297,7 +297,6 @@ public class PromotionActivity extends TabItemActivity implements
 				String title = object.getString("title");
 				String des = object.getString("des");
 				//0_0%E9%97%A8%E5%A4%B4.jpg
-				
 				String imgs = object.getString("img");
 				String []imgArray =  imgs.split(",");
 				String img = imgArray[0].substring(2, imgArray[0].length()-1);

@@ -1,5 +1,6 @@
 package com.hangzhou.tonight.base;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,10 +26,20 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.hangzhou.tonight.LoginActivity;
 import com.hangzhou.tonight.R;
+import com.hangzhou.tonight.entity.BannerEntity;
 import com.hangzhou.tonight.entity.NearByGroup;
 import com.hangzhou.tonight.entity.NearByPeople;
 import com.hangzhou.tonight.service.XXService;
 import com.hangzhou.tonight.util.MyPreference;
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
+import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.nostra13.universalimageloader.utils.StorageUtils;
 
 public class BaseApplication extends Application {
 	
@@ -45,8 +56,10 @@ public class BaseApplication extends Application {
 	public Map<String, SoftReference<Bitmap>> mStatusPhotoCache = new HashMap<String, SoftReference<Bitmap>>();
 
 	public List<NearByPeople> mNearByPeoples = new ArrayList<NearByPeople>();
-	public List<NearByGroup> mNearByGroups = new ArrayList<NearByGroup>();
+	public  List<NearByGroup> mNearByGroups = new ArrayList<NearByGroup>();
 
+	
+	public static List<BannerEntity> banners = new ArrayList<BannerEntity>();
 	public static List<String> mEmoticons = new ArrayList<String>();
 	public static Map<String, Integer> mEmoticonsId = new HashMap<String, Integer>();
 	public static List<String> mEmoticons_Zem = new ArrayList<String>();
@@ -137,6 +150,35 @@ public class BaseApplication extends Application {
 		mLocationClient.start();
 		mLocationClient.requestOfflineLocation();
 		System.out.println("开始获取");
+		
+		File cacheDir = StorageUtils.getOwnCacheDirectory(
+				getApplicationContext(), "tonght/Cache");
+		
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				mContext).memoryCacheExtraOptions(480, 800)
+				// default = device screen dimensions 推荐
+				.diskCacheExtraOptions(480, 800, null)
+				// .推荐diskCacheExtraOptions(480, 800, null)
+				.threadPoolSize(3)
+				// default 推荐1-5
+				.threadPriority(Thread.NORM_PRIORITY - 2)
+				// default
+				.tasksProcessingOrder(QueueProcessingType.FIFO)
+				// default
+				.denyCacheImageMultipleSizesInMemory()
+				// 设置内存缓存不允许缓存一张图片的多个尺寸，默认允许。
+				.memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+				// 使用强引用的缓存使用它，不过推荐使用weak与strong引用结合的UsingFreqLimitedMemoryCache或者使用全弱引用的WeakMemoryCache
+				.memoryCacheSize(2 * 1024 * 1024).memoryCacheSizePercentage(13)
+				// default
+				.discCache(new UnlimitedDiscCache(cacheDir))
+				// 自定义缓存路径
+				.diskCacheSize(50 * 1024 * 1024).diskCacheFileCount(100)
+				.diskCacheFileNameGenerator(new HashCodeFileNameGenerator()) // default
+				.imageDownloader(new BaseImageDownloader(mContext)) // default
+				.defaultDisplayImageOptions(DisplayImageOptions.createSimple()) // default
+				.writeDebugLogs().build();
+		ImageLoader.getInstance().init(config);
 	}
 
 	

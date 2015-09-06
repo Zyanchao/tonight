@@ -56,10 +56,10 @@ public class OtherActsListAdapter extends BaseObjectListAdapter {
 		holder.mTvtitle.setTag(people);
 		
 		holder.mTvtitle.setText(people.getTitle()+"");
-		holder.mTvdescribe.setText(people.getDes()+"");
-		holder.mTvtime.setText("活动时间："+people.getTime()+"");
+		holder.mTvdescribe.setText(people.getTitle()+"");
+		//holder.mTvtime.setText("活动时间："+people.getTime()+"");
 		
-		holder.mTvnums.setText("已售"+people.getNums());
+		holder.mTvnums.setText("已售"+people.getSales_num());
 		holder.mIvAvatar.setBackgroundResource(R.drawable.kcxq_pic);
 	//	holder.mIvAvatar.setImageBitmap(mApplication.getAvatar(people.getImg()));
 		return convertView;

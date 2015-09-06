@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.apache.http.Header;
+
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -21,14 +23,19 @@ import android.content.ServiceConnection;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.hangzhou.tonight.base.BaseActivity;
 import com.hangzhou.tonight.maintabs.MainActivity;
 import com.hangzhou.tonight.service.IConnectionStatusCallback;
@@ -47,6 +54,17 @@ import com.hangzhou.tonight.util.T;
 import com.hangzhou.tonight.view.HandyTextView;
 import com.hangzhou.tonight.view.HeaderLayout;
 import com.hangzhou.tonight.view.HeaderLayout.HeaderStyle;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.bean.SocializeEntity;
+import com.umeng.socialize.controller.UMServiceFactory;
+import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.controller.listener.SocializeListeners.SnsPostListener;
+import com.umeng.socialize.controller.listener.SocializeListeners.UMAuthListener;
+import com.umeng.socialize.controller.listener.SocializeListeners.UMDataListener;
+import com.umeng.socialize.exception.SocializeException;
+import com.umeng.socialize.sso.SinaSsoHandler;
+import com.umeng.socialize.sso.UMQQSsoHandler;
+import com.umeng.socialize.weixin.controller.UMWXHandler;
 
 public class LoginActivity extends BaseActivity implements OnClickListener,
 		IConnectionStatusCallback {
@@ -60,10 +78,14 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	private EditText mAccountEt;
 	private EditText mPasswordEt;
 
+	private ImageView ivSina,ivQq,ivWeant;
 	private XXService mXxService;
 	private String mAccount;
 	private String mPassword;
 
+	 // 整个平台的Controller, 负责管理整个SDK的配置、操作等处理
+    private UMSocialService mController = UMServiceFactory
+            .getUMSocialService("com.umeng.login");
 	ServiceConnection mServiceConnection = new ServiceConnection() {
 
 		@Override
@@ -122,6 +144,41 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		initViews();
 		init();
 		initEvents();
+		
+		
+		/* //参数1为当前Activity， 参数2为开发者在QQ互联申请的APP ID，参数3为开发者在QQ互联申请的APP kEY.
+		UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(this, "1103176396","iY2uCRqXmaooIL7b");
+		qqSsoHandler.addToSocialSDK();
+		
+		UMWXHandler wxHandler =new UMWXHandler(this, "wxbc29ec947c61f0e1", "3f7f7b0bbf4d48f3dcc2647d95c3c688");
+		wxHandler.addToSocialSDK();
+		
+		//设置新浪SSO handler
+		mController.getConfig().setSsoHandler(new SinaSsoHandler());
+		mController.getConfig().setSinaCallbackUrl("https://api.weibo.com/oauth2/default.html");
+
+		SnsPostListener mSnsPostListener  = new SnsPostListener() {
+
+	        @Override
+	    public void onStart() {
+
+	    }
+
+	    @Override
+	    public void onComplete(SHARE_MEDIA platform, int stCode,
+	        SocializeEntity entity) {
+	      if (stCode == 200) {
+//	        Toast.makeText(LoginActivity.this, "分享成功", Toast.LENGTH_SHORT)
+//	            .show();
+	      } else {
+//	        Toast.makeText(LoginActivity.this,
+//	            "分享失败 : error code : " + stCode, Toast.LENGTH_SHORT)
+//	            .show();
+	      }
+	    }
+	  };
+	  mController.registerListener(mSnsPostListener);*/
+		
 	}
 
 	private void unbindXMPPService() {
@@ -148,6 +205,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		mPasswordEt = (EditText) findViewById(R.id.login_et_pwd);
 		mLoginBtn = (Button) findViewById(R.id.login_btn_login);
 		mRegisterBtn = (HandyTextView) findViewById(R.id.login_btn_register);
+		ivQq = (ImageView) findViewById(R.id.im_qq);
+		ivWeant = (ImageView) findViewById(R.id.im_wechat);
+		ivSina = (ImageView) findViewById(R.id.im_sina);
 
 	}
 
@@ -168,6 +228,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	protected void initEvents() {
 		mLoginBtn.setOnClickListener(LoginActivity.this);
 		mRegisterBtn.setOnClickListener(LoginActivity.this);
+		ivQq.setOnClickListener(this);
+		ivWeant.setOnClickListener(this);
+		ivSina.setOnClickListener(this);
 	}
 
 	@Override
@@ -207,6 +270,16 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			 */
 			// shareMsg("分享", "试试分享功能", "分享吧", "mnt/sdcard/1.jpg");
 			break;
+			
+		case R.id.im_sina:
+			login(SHARE_MEDIA.SINA,2);
+			break;
+		case R.id.im_qq:
+			login(SHARE_MEDIA.QQ,3);
+			break;
+		case R.id.im_wechat:
+			login(SHARE_MEDIA.WEIXIN,1);
+			break;
 
 		default:
 			break;
@@ -214,8 +287,174 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	}
 	
 	
-	
+	/**
+     * 授权。如果授权成功，则获取用户信息</br>
+	 * @param i 
+     */
+    private void login(final SHARE_MEDIA platform, final int i) {
+    	mController.doOauthVerify(this, platform,new UMAuthListener() {
+            private String openid;
+			@Override
+            public void onError(SocializeException e, SHARE_MEDIA platform) {
+            	 Toast.makeText(LoginActivity.this, "授权错误",Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onComplete(Bundle value, SHARE_MEDIA platform) {
+            	
+                if (value != null && !TextUtils.isEmpty(value.getString("uid"))) {
+                    if(i==3){
+                    	//此时是qq登录，需要从value中获得openid作为唯一标记
+                    	openid = value.getString("openid");
+                    	// Toast.makeText(LoginActivity.this, "授权成功...openid"+openid,Toast.LENGTH_SHORT).show();
+                    }
+                   // Toast.makeText(LoginActivity.this, "授权成功",Toast.LENGTH_SHORT).show();
+                    getUserInfo(platform,openid,i);
+                    
+                } else {
+                    Toast.makeText(LoginActivity.this, "授权失败",Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onCancel(SHARE_MEDIA platform) {
+            	 Toast.makeText(LoginActivity.this, "授权取消",Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onStart(SHARE_MEDIA platform) {
+            	 Toast.makeText(LoginActivity.this, "授权开始",Toast.LENGTH_SHORT).show();
+            }
+    	});
+    }
+    
+    /**
+     * 获取授权平台的用户信息</br>
+     * @param openid 
+     * @param i 
+     */
+    private void getUserInfo(SHARE_MEDIA platform, final String openid, final int i) {
+    	mController.getPlatformInfo(this, platform, new UMDataListener() {
+    		String onlyId;
+    		String head_img;
+    		String screen_name;
+    		String sex;
+    	    @Override
+    	    public void onStart() {
+    	        Toast.makeText(LoginActivity.this, "获取平台数据开始", Toast.LENGTH_SHORT).show();
+    	    }                                              
+    	    @Override
+    	        public void onComplete(int status, Map<String, Object> info) {
+    	            if(status == 200 && info != null){
+    	                StringBuilder sb = new StringBuilder();
+    	                Set<String> keys = info.keySet();
+    	                for(String key : keys){
+    	                   sb.append(key+"="+info.get(key).toString()+"\r\n");
+    	                  
+    	                }
+    	                if(i==1){
+    	                	//微信登录，获得unionid
+    	                	onlyId=info.get("unionid").toString();
+    	                	head_img=info.get("headimgurl").toString();
+    	                	screen_name=info.get("nickname").toString();
+    	                	sex=info.get("sex").toString();
+    	                	//Toast.makeText(LoginActivity.this, "登录...onlyId"+onlyId,Toast.LENGTH_SHORT).show();
+    	                	 // isBund(String.valueOf(2),onlyId,head_img,screen_name,sex);
+    	                }else if(i==2){
+    	                	//新浪微博登录，获得uid
+    	                	onlyId=info.get("uid").toString();
+    	                	head_img=info.get("profile_image_url").toString();
+    	                	screen_name=info.get("screen_name").toString();
+    	                	sex=info.get("gender").toString();
+    	                	//Toast.makeText(LoginActivity.this, "登录...onlyId"+onlyId,Toast.LENGTH_SHORT).show();
+    	                	//isBund(String.valueOf(3),onlyId,head_img,screen_name,sex);
+    	                }else{
+    	                	//qq登录，获得openid
+    	                	onlyId=openid;
+    	                	head_img=info.get("profile_image_url").toString();
+    	                	screen_name=info.get("screen_name").toString();
+    	                	sex=info.get("gender").toString();
+    	                	if("男".equals(sex)){
+    	                		sex="1";
+    	                	}else{
+    	                		sex="0";
+    	                	}
+    	                	//Toast.makeText(LoginActivity.this, "登录...onlyId"+onlyId,Toast.LENGTH_SHORT).show();
+    	                	//isBund(String.valueOf(1),onlyId,head_img,screen_name,sex);
+    	                }
+    	                
+    	               /* String path =Environment.getExternalStorageDirectory().getAbsolutePath();
+    	                File file =new File(path, "abcsina.txt");
+						try {
+							OutputStream os =new FileOutputStream(file);
+							os.write(sb.toString().getBytes("utf-8"));
+							os.flush();
+							os.close();
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}*/
+						
+    	              
+						
+    	                Log.d("TestData",sb.toString());
+    	               
+    	            }else{
+    	               Log.d("TestData","发生错误："+status);
+    	           }
+    	        }
+    	});
+    }
 
+    
+    /*第三方登陆判断是否绑定过账号
+	 *  status：登陆方式 1QQ 2 微信  3微博
+		   uid:第三方登陆返回的唯一标识
+
+	 * */
+   /* public void isBund(final String i,final String uid,final String head_img,final String nickname,final String sex){
+    	String str="http://112.126.72.250/ut_app/index.php?m=User&a=tpos_login";
+    	RequestParams params =new RequestParams();
+    	params.put("status", i);
+    	params.put("uid", uid);
+    //	Utils.showToast(LoginActivity.this, i+"onSuccess..."+uid);
+    	HttpUtils.post(str, params, new TextHttpResponseHandler() {
+			
+			@Override
+			public void onSuccess(int arg0, Header[] arg1, String arg2) {
+				Utils.showToast(LoginActivity.this, "onSuccess...");
+				Gson gson =new Gson();
+				LoginBean loginBean = gson.fromJson(arg2, LoginBean.class);
+				if(loginBean!=null&loginBean.code.equals("0")){
+					//登录成功，需要绑定账号
+					Intent intent =new Intent(LoginActivity.this,ThirdLoginActivity.class);
+					intent.putExtra("uid", uid);
+					intent.putExtra("status",i);
+					intent.putExtra("head_img", head_img);
+					intent.putExtra("nickname", nickname);
+					intent.putExtra("sex", sex);
+					//YoutiApplication.getInstance().myPreference.setHeadImgPath(head_img);
+					startActivity(intent);
+					finish();
+					
+				}else if(loginBean.code.equals("1")){
+					//登录成功，已经绑定账号
+					//System.out.println();
+					String userId = loginBean.list.user_id;
+					((YoutiApplication) getApplication()).myPreference.setUserId(userId);
+					((YoutiApplication) getApplication()).myPreference.setHasLogin(true);
+					//Intent intent =new Intent(LoginActivity.this,PersonCenterActivity.class);
+					//startActivity(intent);
+					requestData(userId);
+					
+				}else{
+					Utils.showToast(LoginActivity.this, "第三方登录失败");
+				}
+			}
+			
+			@Override
+			public void onFailure(int arg0, Header[] arg1, String arg2, Throwable arg3) {
+				Utils.showToast(LoginActivity.this, "网络连接失败");
+			}
+		});
+    }*/
 	private void login() {
 		/*
 		 * if ((!validateAccount()) || (!validatePwd())) { return; }

@@ -1,6 +1,6 @@
 package com.hangzhou.tonight.entity;
 
-public class ReviewsEntity {
+public class ReviewsEntity extends Entity{
 
 	/*reviews[{uid(⽤用户ID)，nick(⽤用户昵称)，
 		mark(评分,1~5)，content(评论内容)，img(评

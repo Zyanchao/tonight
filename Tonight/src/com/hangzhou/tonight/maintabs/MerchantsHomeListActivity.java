@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,6 +39,7 @@ import com.hangzhou.tonight.activity.PromotionActivity;
 import com.hangzhou.tonight.activity.PromotionDetailActivity;
 import com.hangzhou.tonight.adapter.ActivesListAdapter;
 import com.hangzhou.tonight.adapter.MerchantListAdapter;
+import com.hangzhou.tonight.base.BaseApplication;
 import com.hangzhou.tonight.entity.ActivesEntity;
 import com.hangzhou.tonight.entity.MerchantEntity;
 import com.hangzhou.tonight.util.Base64Utils;
@@ -54,6 +56,8 @@ import com.hangzhou.tonight.view.HeaderLayout.SearchState;
 import com.hangzhou.tonight.view.HeaderLayout.onMiddleImageButtonClickListener;
 import com.hangzhou.tonight.view.HeaderLayout.onSearchListener;
 import com.hangzhou.tonight.view.XListView.IXListViewListener;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
 
@@ -86,6 +90,8 @@ OnClickListener, IXListViewListener{
 	private MerchantListAdapter mAdapter;
 	public List<MerchantEntity> mActives = new ArrayList<MerchantEntity>();
 
+	ImageLoader imageLoader;
+	DisplayImageOptions options;
 	private AbSlidingPlayView mAbSlidingPlayView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +115,17 @@ OnClickListener, IXListViewListener{
 		mAbSlidingPlayView = (AbSlidingPlayView) findViewById(R.id.mAbSlidingPlayView);
 		mAbSlidingPlayView.setNavHorizontalGravity(Gravity.CENTER);
 		// mAbSlidingPlayView.setParentHScrollView(menuLayout);
+		
+
+		imageLoader = ImageLoader.getInstance();
+		options = new DisplayImageOptions.Builder()
+				.showImageOnLoading(R.drawable.kc_picture)// 正在加载
+				.showImageForEmptyUri(R.drawable.kc_picture)// 空图片
+				.showImageOnFail(R.drawable.kc_picture)// 错误图片
+				.cacheOnDisk(true)//设置硬盘缓存
+				.considerExifParams(true)
+				
+				.bitmapConfig(Bitmap.Config.RGB_565).build();
 		mAbSlidingPlayView.startPlay();
 		mAbSlidingPlayView.setParentListView(xListView);
 		// adapter = new MyAdapter();
@@ -134,13 +151,14 @@ OnClickListener, IXListViewListener{
 		mHander = new Handler();
 		tvTitle.setText("不夜程");
 		
+		for(int i = 0;i<BaseApplication.banners.size();i++){
+			
 		final View mView = View.inflate(MerchantsHomeListActivity.this,R.layout.play_view_item, null);
 		ImageView mView2 = (ImageView) mView.findViewById(R.id.mPlayImage);
-		/*imageLoader.displayImage(Constants.PIC_CODE
-				+ mCarousels.get(i).getAdvert_img(), mView2,
-				options)*/;
-				
+		imageLoader.displayImage(BaseApplication.banners.get(i).getImg(), mView2,options);
 		mAbSlidingPlayView.addView(mView);
+		
+		}
 		
 	}
 	private void initPopupWindow() {

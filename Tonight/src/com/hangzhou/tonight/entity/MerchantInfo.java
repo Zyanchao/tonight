@@ -26,18 +26,72 @@ public class MerchantInfo extends MerchantEntity {
 			论所带图⽚片的json数组)，time(评论时间)}]
 	*/
 	
-	private String seller_id;//(商家ID)，
+
 	private String name;//(商家名称)，
-	private String title;//;(活动名称)，
-	private String img;//(活动图⽚片的json数组，已带扩展名)，
+	private String[] photo;//;(活动名称)，
+	private String video;//
 	private String value;//(套餐原价);//，
 	private String price;//(套餐折后价)，
-	private String sales_num;//(销量)，
+	private String reception_photo;//(专职接待照⽚片)，
+	private String reception_phone;//(销量专职接待电话)，
 	private String address;//(商家地址)，
 	private String	lon;//(商家经度)，
 	private String lat;//(商家纬度)}
+	private String	mark;//(商家经度)，
+	private String	review_num;//(商家经度)，
 	
 	
+	private String seller_id;//(商家ID)，
+	public String[] getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String[] photo) {
+		this.photo = photo;
+	}
+
+	public String getVideo() {
+		return video;
+	}
+
+	public void setVideo(String video) {
+		this.video = video;
+	}
+
+	public String getReception_photo() {
+		return reception_photo;
+	}
+
+	public void setReception_photo(String reception_photo) {
+		this.reception_photo = reception_photo;
+	}
+
+	public String getReception_phone() {
+		return reception_phone;
+	}
+
+	public void setReception_phone(String reception_phone) {
+		this.reception_phone = reception_phone;
+	}
+
+	public String getMark() {
+		return mark;
+	}
+
+	public void setMark(String mark) {
+		this.mark = mark;
+	}
+
+	public String getReview_num() {
+		return review_num;
+	}
+
+	public void setReview_num(String review_num) {
+		this.review_num = review_num;
+	}
+
+
+
 
 	
 	public String getValue() {
@@ -72,29 +126,6 @@ public class MerchantInfo extends MerchantEntity {
 		this.name = name;
 	}
 
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getImg() {
-		return img;
-	}
-
-	public void setImg(String img) {
-		this.img = img;
-	}
-
-	public String getSales_num() {
-		return sales_num;
-	}
-
-	public void setSales_num(String sales_num) {
-		this.sales_num = sales_num;
-	}
 
 	public String getAddress() {
 		return address;

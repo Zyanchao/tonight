@@ -24,6 +24,11 @@ public class ActivesEntity extends Entity {
 	private String lat;
 	
 	
+	
+	
+	
+	
+	
 	public ActivesEntity(){
 		
 	}

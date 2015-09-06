@@ -27,6 +27,8 @@ public class ActivesInfo extends ActivesEntity {
 		mark(评分,1~5)，content(评论内容)，img(评
 		论所带图⽚片的json数组)，time(评论时间)}]*/
 	
+	
+	
 	private String phone;
 	private String content;//(活动详情)，
 	public String getContent() {

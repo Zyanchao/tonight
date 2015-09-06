@@ -9,71 +9,46 @@ package com.hangzhou.tonight.entity;
  */
 public class OtherActsEntity extends Entity {
 
-	private String nums;
-	public String getNums() {
-		return nums;
-	}
-
-
-	public void setNums(String nums) {
-		this.nums = nums;
-	}
-
-
-	public String getTitle() {
-		return title;
-	}
-
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-
-	private String title;
-	private String des;
-	private String time;
-	private String imgHeader;
 	
-	
-	public OtherActsEntity(String title,String nums,
-			String des, String time, String imgHeader) {
-		this.title = title;
-		this.nums = nums;
-		this.des = des;
-		this.time = time;
-		this.imgHeader = imgHeader;
-	}
+private String title;
+public String getTitle() {
+	return title;
+}
+public void setTitle(String title) {
+	this.title = title;
+}
+public String[] getImg() {
+	return img;
+}
+public void setImg(String[] img) {
+	this.img = img;
+}
+public String getValue() {
+	return value;
+}
+public void setValue(String value) {
+	this.value = value;
+}
+public String getPrice() {
+	return price;
+}
+public void setPrice(String price) {
+	this.price = price;
+}
+public String getSales_num() {
+	return sales_num;
+}
+public void setSales_num(String sales_num) {
+	this.sales_num = sales_num;
+}
+private String[] img;
+private String value;
+private String price;
+private String sales_num;
 
 
-	public String getDes() {
-		return des;
-	}
-
-	public void setDes(String des) {
-		this.des = des;
-	}
-
-	public String getTime() {
-		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
-	}
-
-	public String getImgHeader() {
-		return imgHeader;
-	}
-
-	public void setImgHeader(String imgHeader) {
-		this.imgHeader = imgHeader;
-	}
 
 
-	public OtherActsEntity(){
-		
-	}
 	
 	
 }

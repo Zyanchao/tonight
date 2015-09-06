@@ -32,8 +32,11 @@ import com.hangzhou.tonight.adapter.ActivesListAdapter;
 import com.hangzhou.tonight.adapter.OtherActsListAdapter;
 import com.hangzhou.tonight.adapter.PinglunListAdapter;
 import com.hangzhou.tonight.entity.ActivesEntity;
+import com.hangzhou.tonight.entity.ActivesInfo;
+import com.hangzhou.tonight.entity.MerchantInfo;
 import com.hangzhou.tonight.entity.OtherActsEntity;
 import com.hangzhou.tonight.entity.PinglunEntity;
+import com.hangzhou.tonight.entity.ReviewsEntity;
 import com.hangzhou.tonight.maintabs.TabItemActivity;
 import com.hangzhou.tonight.util.Base64Utils;
 import com.hangzhou.tonight.util.HttpRequest;
@@ -69,19 +72,21 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 	private HeaderSpinner mHeaderSpinner;
 	//private PromotionListFragment mPeopleFragment;
 	private Handler mHander;
-	
+	private MerchantInfo sellerInfo;
 	private int currentPage=1,//当期页码
             pageCount = 1,//总页数
             pageSize = 15;//每页数据量
 	
 	private ActivesListAdapter mAdapter;
 	public List<ActivesEntity> mActives = new ArrayList<ActivesEntity>();
-	public List<PinglunEntity> mpingluns = new ArrayList<PinglunEntity>();
+	public List<ReviewsEntity> mpingluns = new ArrayList<ReviewsEntity>();
 	public List<OtherActsEntity> motheracts = new ArrayList<OtherActsEntity>();
 	private String seller_id,name;
 	private ListView lvacts,lvpinglun;
 	private PinglunListAdapter pinglunAdapter;
 	private OtherActsListAdapter otherActsListAdapter;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,7 +97,7 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 		initViews();
 		initEvents();
 		init();
-		//getDataDetail(currentPage);
+		getDataDetail(currentPage);
 	}
 	
 	@Override
@@ -114,16 +119,11 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 		mHander = new Handler();
 		tvTitle.setText(name);
 		
-		mpingluns.add(new PinglunEntity("4.5"," 4.5", "4.5", "很不错哦,值得一去" ,"2015-07-11", "", "刘威"));
-		mpingluns.add(new PinglunEntity("4.5"," 4.5", "4.5", "值得一去,顺便说句，美女很多哦" ,"2015-07-11", "", "韩伟"));
-		mpingluns.add(new PinglunEntity("4.5"," 4.5", "4.5", "很不错哦,值得一去" ,"2015-07-11", "", "小新"));
 		pinglunAdapter = new PinglunListAdapter(mApplication, mContext, mpingluns);
 		lvpinglun.setAdapter(pinglunAdapter);
 		pinglunAdapter.notifyDataSetInvalidated();
 		ScreenUtils.setListViewHeightBasedOnChildren(lvpinglun);
 		
-		motheracts.add(new OtherActsEntity("蜜桃酒吧 ","230","8090 迷你小聚，欢乐多", "周一到周五", ""));
-		motheracts.add(new OtherActsEntity("蜜桃酒吧 ","330","职场新人请老人，欢乐多", "周一到周五", ""));
 		otherActsListAdapter = new OtherActsListAdapter(mApplication, mContext, motheracts);
 		lvacts.setAdapter(otherActsListAdapter);
 		otherActsListAdapter.notifyDataSetInvalidated();
@@ -224,6 +224,8 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 	private void getDataDetail(final int currentPage) {
 		new AsyncTask<Void, Void, String>() {
 
+			
+
 			@Override
 			protected void onPreExecute() {
 				super.onPreExecute();
@@ -245,8 +247,16 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 				super.onPostExecute(result);
 				dismissLoadingDialog();
 				JSONObject jsonObject = JSON.parseObject(result);
-				com.alibaba.fastjson.JSONArray jsonArray = jsonObject.getJSONArray("acts");
-				mActives = JSON.parseArray(jsonArray.toString(),ActivesEntity.class);
+				
+				
+				JSONObject seller = jsonObject.getJSONObject("sellerInfo"); 
+				sellerInfo = JSON.parseObject(jsonObject.toString(), MerchantInfo.class);
+				
+				com.alibaba.fastjson.JSONArray jsonArrayacts = jsonObject.getJSONArray("acts");
+				motheracts = JSON.parseArray(jsonArrayacts.toString(),OtherActsEntity.class);
+				
+				com.alibaba.fastjson.JSONArray jsonArray = jsonObject.getJSONArray("reviews");
+				mpingluns = JSON.parseArray(jsonArray.toString(),ReviewsEntity.class);
 				showCustomToast(result);
 			}
 		}.execute();

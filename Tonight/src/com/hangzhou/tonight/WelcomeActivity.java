@@ -3,6 +3,7 @@ package com.hangzhou.tonight;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.annotation.TargetApi;
@@ -16,7 +17,11 @@ import android.util.Base64;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.hangzhou.tonight.base.BaseActivity;
+import com.hangzhou.tonight.base.BaseApplication;
+import com.hangzhou.tonight.entity.BannerEntity;
 import com.hangzhou.tonight.maintabs.MainActivity;
 import com.hangzhou.tonight.util.Base64Utils;
 import com.hangzhou.tonight.util.HttpRequest;
@@ -45,6 +50,7 @@ public class WelcomeActivity extends BaseActivity {
     private String account;
     private String password ;
 
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,7 +151,12 @@ public class WelcomeActivity extends BaseActivity {
 			@Override
 			protected void onPostExecute(String result) {
 				super.onPostExecute(result);
-				System.out.println("打开应用：      " +result);
+				
+				com.alibaba.fastjson.JSONObject object = JSON
+						.parseObject(result);
+				
+				com.alibaba.fastjson.JSONArray jsonArray = object.getJSONArray("banner");
+				BaseApplication.banners = JSON.parseArray(jsonArray.toString(), BannerEntity.class);
 			}
 		});
     }
