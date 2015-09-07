@@ -36,7 +36,7 @@
             android:layout_centerVertical="true"
             android:singleLine="true"
             android:gravity="center"
-            android:text="注 册"
+            android:text="不夜程"
             android:textSize="@dimen/x40" />
     </RelativeLayout>
 
@@ -75,8 +75,8 @@
             android:id="@+id/promotion_list"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="#312D31"
-            android:divider="@null"
+            android:divider="#242124"
+            android:dividerHeight="@dimen/x2"
             android:listSelector="@android:color/transparent"
             android:scrollbars="none"
             android:visibility="visible" >

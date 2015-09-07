@@ -17,24 +17,22 @@ import com.hangzhou.tonight.base.BaseApplication;
 import com.hangzhou.tonight.base.BaseObjectListAdapter;
 import com.hangzhou.tonight.base.Config;
 import com.hangzhou.tonight.entity.ActivesEntity;
+import com.hangzhou.tonight.entity.DriverEntity;
 import com.hangzhou.tonight.entity.Entity;
 import com.hangzhou.tonight.entity.MerchantEntity;
 import com.hangzhou.tonight.entity.NearByPeople;
-import com.hangzhou.tonight.entity.OtherActsEntity;
 import com.hangzhou.tonight.util.PhotoUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
-public class OtherActsListAdapter extends BaseObjectListAdapter {
+public class DriverListAdapter extends BaseObjectListAdapter {
 
-	
 	ImageLoader imageLoader;
 	DisplayImageOptions options;
-	public OtherActsListAdapter(BaseApplication application, Context context,
+	public DriverListAdapter(BaseApplication application, Context context,
 			List<? extends Entity> datas) {
 		super(application, context, datas);
-		
 		imageLoader = ImageLoader.getInstance();
 		options = new DisplayImageOptions.Builder()
 				.showImageOnLoading(R.drawable.kc_picture)// 正在加载
@@ -45,45 +43,44 @@ public class OtherActsListAdapter extends BaseObjectListAdapter {
 				.imageScaleType(ImageScaleType.EXACTLY) // default 推荐.imageScaleType(ImageScaleType.EXACTLY) 节省内存
 				.considerExifParams(true)
 				.bitmapConfig(Bitmap.Config.RGB_565).build();
+		
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder = null;
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.item_other_promotion_list, null);
+			convertView = mInflater.inflate(R.layout.item_driver_list, null);
 			holder = new ViewHolder();
 
 			holder.mIvAvatar = (ImageView) convertView
-					.findViewById(R.id.img_merchant);
+					.findViewById(R.id.img_header);
 
 			holder.mTvtitle = (TextView) convertView
-					.findViewById(R.id.tv_merchant_name);
+					.findViewById(R.id.tv_driver_name);
 			holder.mTvdescribe = (TextView) convertView
-					.findViewById(R.id.tv_merchant_desc);
-			holder.mTvtime = (TextView) convertView
-					.findViewById(R.id.tv_merchant_tiem);
-			holder.mTvnums = (TextView) convertView
-					.findViewById(R.id.tv_merchant_nums);
+					.findViewById(R.id.tv_driver_age);
+			holder.mTvdistance = (TextView) convertView
+					.findViewById(R.id.tv_driver_nums);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		//畅销套餐
 		//290元享价值总价值460元的雪花纯生啤酒套餐
-		OtherActsEntity people = (OtherActsEntity) getItem(position);
+		DriverEntity people = (DriverEntity) getItem(position);
 		holder.mTvtitle.setTag(people);
+		holder.mTvtitle.setText(people.getName()+"");
+		holder.mTvdescribe.setText(people.getDrive_age()+"");
+		holder.mTvdistance.setText(people.getDrive_num()+"");
 		
-		holder.mTvtitle.setText(people.getTitle()+"");
-		holder.mTvdescribe.setText(people.getTitle()+"");
-		//holder.mTvtime.setText("活动时间："+people.getTime()+"");
-		
-		holder.mTvnums.setText("已售"+people.getSales_num());
-		String []imgArray =  people.getImg().toString().split(",");
-		String img = imgArray[0].substring(2, imgArray[0].length()-1);
-		holder.mIvAvatar.setBackgroundResource(R.drawable.kcxq_pic);
-		
-		imageLoader.displayImage(Config.ACT_IMG+img, holder.mIvAvatar,options);
+    	//LatLng pt_end = new LatLng(w, j);
+		//double distance = DistanceUtil.getDistance(pt_start, pt_end);
+    	
+    	//Toast.makeText(mContext, lati+""+lonti+""+addr, 1).show();
+    	
+    	//holder.distance.setText((int)(distance/1000)+"km");
+		imageLoader.displayImage(Config.ACT_IMG+people.getPhoto(), holder.mIvAvatar,options);
 	//	holder.mIvAvatar.setImageBitmap(mApplication.getAvatar(people.getImg()));
 		return convertView;
 	}
@@ -93,7 +90,7 @@ public class OtherActsListAdapter extends BaseObjectListAdapter {
 		ImageView mIvAvatar;
 		TextView mTvtitle;
 		TextView mTvdescribe;
-		TextView mTvtime;
-		TextView mTvnums;
+		TextView mTvdistance;
+		TextView mTvcharge;
 	}
 }

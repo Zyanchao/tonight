@@ -292,7 +292,6 @@ public class PromotionActivity extends TabItemActivity implements
 			JSONObject object = null;
 			for (int i = 0; i < jsonArray.length(); i++) {
 				object = jsonArray.getJSONObject(i);
-
 				String act_id = object.getString("act_id");
 				String title = object.getString("title");
 				String des = object.getString("des");

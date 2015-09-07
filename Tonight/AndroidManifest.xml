@@ -104,7 +104,14 @@
             android:name="com.hangzhou.tonight.activity.SelectCityActivity"
             android:label="@string/title_activity_main" >
         </activity>
-        
+           <activity
+            android:name="com.hangzhou.tonight.activity.BrDayServerActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+           <activity
+            android:name="com.hangzhou.tonight.activity.DriverServerActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
         
           <activity
             android:name=".maintabs.DiscoverActivity"

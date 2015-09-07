@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="@dimen/x220"
+    android:layout_height="@dimen/x260"
     android:orientation="horizontal"
-    android:background="#2F2B2F"
-    android:paddingTop="@dimen/x10"
-    android:paddingLeft="@dimen/x20"
-    android:paddingRight="@dimen/x20"
+    android:background="#383438"
+    android:padding="@dimen/x10"
    >
 
     <ImageView
+        android:layout_margin="@dimen/x10"
         android:id="@+id/img_merchant"
         android:layout_width="@dimen/x250"
         android:layout_height="@dimen/x200"
@@ -20,9 +19,10 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="@dimen/x200"
+        android:layout_marginTop="@dimen/x10"
         android:orientation="vertical" >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -30,24 +30,23 @@
 
             <TextView
                 android:id="@+id/tv_merchant_name"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/x300"
                 android:layout_height="wrap_content"
                 android:text="蜜桃酒吧"
+                android:singleLine="true"
                 android:textStyle="bold"
                 android:textColor="#D1397F"
                 android:textSize="@dimen/x40" />
 
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1.2"
-                android:layout_marginLeft="@dimen/x170"
+                android:layout_alignParentRight="true"
                 android:text="1KM"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/x28" />
-        </LinearLayout>
+        </RelativeLayout>
 
         
         
