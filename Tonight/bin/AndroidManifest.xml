@@ -5,8 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="19" />
+        android:minSdkVersion="11"
+        android:targetSdkVersion="21" />
     
       <uses-permission android:name="android.permission.INTERNET" />
     <!-- 此权限用来显示反馈崩溃信息对话框 -->
@@ -15,6 +15,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <!-- 判断堆栈中是否有本应用的权限 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
 
@@ -26,14 +28,13 @@
         android:theme="@android:style/Theme.NoTitleBar" >
         
         
-        <activity
-            android:name="com.hangzhou.tonight.module.individual.activity.IndividualActivity">
-        </activity>
-        
+ 
         <activity
             android:name=".maintabs.MainActivity"
             android:label="@string/title_activity_main" >
         </activity>
+        
+        <activity android:name=".module.individual.activity.IndividualActivity" android:label="@string/individual"></activity>
         
         <activity
             android:name=".WelcomeActivity"
@@ -72,8 +73,6 @@
             android:name="com.hangzhou.tonight.maintabs.MerchantsHomeListActivity"
             android:label="@string/title_activity_register" >
         </activity>
-        
-        
         
          <activity
             android:name=".maintabs.BusinessActivity"
@@ -121,7 +120,7 @@
         </activity>
                
            
-             <!-- 基础FragmentActivity -->
+        <!-- 基础FragmentActivity -->
         <activity android:name="com.hangzhou.tonight.module.base.BaseSingeFragmentActivity"></activity>
         <!-- 我的订单模块 -->   
         <activity android:name="com.hangzhou.tonight.module.individual.activity.MyOrderActivity" android:label="@string/individual_my_order"></activity>
@@ -129,6 +128,13 @@
         <activity android:name="com.hangzhou.tonight.module.individual.activity.MyAccountActivity" android:label="@string/individual_my_account"></activity>
         <!-- 消息模块 -->
         <activity android:name="com.hangzhou.tonight.module.message.activity.MessageMainActivity" android:label="@string/message"></activity>
+		<!-- 个人信息 -->
+        <activity android:name="com.hangzhou.tonight.module.social.activity.FindActivity" android:label="@string/find"></activity>
+        <!-- 社交模块 -->
+        <activity android:name="com.hangzhou.tonight.module.social.activity.TonightCircleActivity" android:label="@string/tonight_circle"></activity>
+        <activity android:name="com.hangzhou.tonight.module.social.activity.GroupActivity" android:label="@string/group"></activity>
+        <activity android:name="com.hangzhou.tonight.module.social.activity.FriendActivity" android:label="@string/friend"></activity>
+        
     </application>
 
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />

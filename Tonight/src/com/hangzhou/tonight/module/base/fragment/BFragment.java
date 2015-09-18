@@ -9,17 +9,21 @@ public abstract class BFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+		init();
+	}
+	
+	protected void init(){
 		doView();
 		doListeners();
 		doHandler();
 	}
 	
+	protected abstract void doView();
+	protected abstract void doListeners();
+	protected abstract void doHandler();
+	
 	public View findViewById(int id){
 		return getView().findViewById(id);
 	}
 	
-	protected abstract void doView();
-	protected abstract void doListeners();
-	protected abstract void doHandler();
 }

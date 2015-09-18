@@ -2,16 +2,20 @@ package com.hangzhou.tonight.module.individual.activity;
 
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.module.base.BaseSingeFragmentActivity;
 import com.hangzhou.tonight.module.base.CustomActionActivity;
+import com.hangzhou.tonight.module.base.dto.UserInfoDto;
+import com.hangzhou.tonight.module.base.dto.UserInfoDto.User;
 import com.hangzhou.tonight.module.base.helper.ActivityHelper;
 import com.hangzhou.tonight.module.base.helper.model.TbarViewModel;
+import com.hangzhou.tonight.module.individual.fragment.IndividualInfomationFragment;
 import com.hangzhou.tonight.module.individual.fragment.InvitationCodeFragment;
 import com.hangzhou.tonight.module.individual.fragment.MyCollectionFragment;
+import com.hangzhou.tonight.module.individual.fragment.MyCommissionFragment;
 import com.hangzhou.tonight.module.individual.fragment.SettingFragment;
-import com.hangzhou.tonight.module.message.activity.MessageMainActivity;
 
 /**
  * 个人[主界面]
@@ -20,10 +24,14 @@ import com.hangzhou.tonight.module.message.activity.MessageMainActivity;
  */
 public class IndividualActivity extends CustomActionActivity {
 	//设置 订单  账户 收藏  邀请码 佣金
-	View mSettings,mMyOrder,mMyAccount,mMyCollection,mInvitationCode,mMycommission;
-	
+	View mSettings,mMyOrder,mMyAccount,mMyCollection,mInvitationCode,mMycommission,vInfoContainer;
+	TextView tvNick,tvAccount;
 	@Override protected void doView() {
 		setContentView(R.layout.activity_individual_individual);
+		
+		tvNick    = (TextView) findViewById(R.id.individual_information_nick);
+		tvAccount = (TextView) findViewById(R.id.individual_information_account);
+		vInfoContainer = findViewById(R.id.individual_infomation_container);
 		mSettings = findViewById(R.id.individual_settings);
 		mMyOrder  = findViewById(R.id.individual_my_order);
 		mMyAccount= findViewById(R.id.individual_my_account);
@@ -33,6 +41,8 @@ public class IndividualActivity extends CustomActionActivity {
 	}
 
 	@Override protected void doListeners() {
+		vInfoContainer.setOnClickListener(itemViewClick);
+		
 		mSettings.setOnClickListener(itemViewClick);
 		mMyOrder.setOnClickListener(itemViewClick);
 		mMyAccount.setOnClickListener(itemViewClick);
@@ -43,6 +53,9 @@ public class IndividualActivity extends CustomActionActivity {
 	
 	@Override protected void doHandler() {
 		setBackViewVisibility(View.GONE);
+		User user = UserInfoDto.getUser(getActivity());
+		tvNick.setText(user.nick);
+		tvAccount.setText(String.format(getResources().getString(R.string.label_account), user.phone));
 	}
 
 	OnClickListener itemViewClick = new OnClickListener() {
@@ -57,10 +70,11 @@ public class IndividualActivity extends CustomActionActivity {
 				BaseSingeFragmentActivity.startActivity(getActivity(), MyCollectionFragment.class, new TbarViewModel(getResources().getString(R.string.individual_my_collection)));
 			}else if(v == mInvitationCode){
 				BaseSingeFragmentActivity.startActivity(getActivity(), InvitationCodeFragment.class, new TbarViewModel(getResources().getString(R.string.individual_invitation_code)));
-			}/*else if(v == mMycommission){
-				//TODO 临时测试
-				ActivityHelper.startActivity(getActivity(), MessageMainActivity.class);
-			}*/
+			}else if(v == vInfoContainer){
+				BaseSingeFragmentActivity.startActivity(getActivity(), IndividualInfomationFragment.class, new TbarViewModel(getResources().getString(R.string.individual)));
+			}else if(v == mMycommission){
+				BaseSingeFragmentActivity.startActivity(getActivity(), MyCommissionFragment.class, new TbarViewModel(getResources().getString(R.string.individual_my_commission)));
+			}
 		}
 	};
 	

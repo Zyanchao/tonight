@@ -142,4 +142,5 @@
 	<color name="bg_color_actionbar">#FF231E23</color>
 	<color name="bg_color">#2f2b2f</color>
 	<color name="divider_listview">#FF201326</color>
+	<color name="divider_commission">#FF19042B</color>
 </resources>

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -267,6 +268,14 @@ public abstract class BaseActivity extends FragmentActivity {
 
 		public abstract void activityOnPause();
 
+	}
+	
+	/**
+	 * 获取context[hank添加]
+	 * @return this
+	 */
+	public Context getContext(){
+		return this;
 	}
 	
 }

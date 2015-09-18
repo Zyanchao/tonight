@@ -14,6 +14,7 @@ import java.util.Map;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Address;
@@ -23,13 +24,16 @@ import android.util.Log;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.hangzhou.tonight.LoginActivity;
 import com.hangzhou.tonight.R;
+import com.hangzhou.tonight.comm.Constant;
 import com.hangzhou.tonight.entity.BannerEntity;
 import com.hangzhou.tonight.entity.NearByGroup;
 import com.hangzhou.tonight.entity.NearByPeople;
-import com.hangzhou.tonight.service.XXService;
+import com.hangzhou.tonight.model.LoginConfig;
+import com.hangzhou.tonight.service.IMChatService;
+import com.hangzhou.tonight.service.IMContactService;
+import com.hangzhou.tonight.service.IMSystemMsgService;
+import com.hangzhou.tonight.service.ReConnectService;
 import com.hangzhou.tonight.util.MyPreference;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
@@ -40,6 +44,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+
 
 public class BaseApplication extends Application {
 	
@@ -58,7 +63,8 @@ public class BaseApplication extends Application {
 	public List<NearByPeople> mNearByPeoples = new ArrayList<NearByPeople>();
 	public  List<NearByGroup> mNearByGroups = new ArrayList<NearByGroup>();
 
-	
+	public static long sessionCreateTime = 0;
+	public static String sessionId = null;
 	public static List<BannerEntity> banners = new ArrayList<BannerEntity>();
 	public static List<String> mEmoticons = new ArrayList<String>();
 	public static Map<String, Integer> mEmoticonsId = new HashMap<String, Integer>();
@@ -66,6 +72,7 @@ public class BaseApplication extends Application {
 	public static List<String> mEmoticons_Zemoji = new ArrayList<String>();
 
 	public MyPreference myPreference;
+	public SharedPreferences preferences;
 	public LocationClient mLocationClient;
 	public double mLongitude;
 	public double mLatitude;
@@ -104,8 +111,9 @@ public class BaseApplication extends Application {
 		
 */
 		
-		startService(new Intent(getApplicationContext(), XXService.class));
+		//startService(new Intent(getApplicationContext(), XXService.class));
 		myPreference = MyPreference.getInstance(this);
+		preferences = getSharedPreferences(Constant.LOGIN_SET, 0);
 		// 获取当前用户位置
 		mLocationClient = new LocationClient(getApplicationContext());
 		mLocationClient.setAK("60b43d1a9513d904b6aa2948b27b4a20");
@@ -180,6 +188,108 @@ public class BaseApplication extends Application {
 				.writeDebugLogs().build();
 		ImageLoader.getInstance().init(config);
 	}
+	
+	
+	public void startService() {
+		// 好友联系人服务
+		Intent server = new Intent(mContext, IMContactService.class);
+		mContext.startService(server);
+		// 聊天服务
+		Intent chatServer = new Intent(mContext, IMChatService.class);
+		mContext.startService(chatServer);
+		// 自动恢复连接服务
+		Intent reConnectService = new Intent(mContext, ReConnectService.class);
+		mContext.startService(reConnectService);
+		// 系统消息连接服务
+		Intent imSystemMsgService = new Intent(mContext,
+				IMSystemMsgService.class);
+		mContext.startService(imSystemMsgService);
+	}
+
+	/**
+	 * 
+	 * 销毁服务.
+	 * 
+	 */
+	public void stopService() {
+		// 好友联系人服务
+		Intent server = new Intent(mContext, IMContactService.class);
+		mContext.stopService(server);
+		// 聊天服务
+		Intent chatServer = new Intent(mContext, IMChatService.class);
+		mContext.stopService(chatServer);
+
+		// 自动恢复连接服务
+		Intent reConnectService = new Intent(mContext, ReConnectService.class);
+		mContext.stopService(reConnectService);
+
+		// 系统消息连接服务
+		Intent imSystemMsgService = new Intent(mContext,
+				IMSystemMsgService.class);
+		mContext.stopService(imSystemMsgService);
+	}
+	
+	
+	public void saveLoginConfig(LoginConfig loginConfig) {
+		preferences.edit()
+				.putString(Constant.XMPP_HOST, loginConfig.getXmppHost())
+				.commit();
+		preferences.edit()
+				.putInt(Constant.XMPP_PORT, loginConfig.getXmppPort()).commit();
+		preferences
+				.edit()
+				.putString(Constant.XMPP_SEIVICE_NAME,
+						loginConfig.getXmppServiceName()).commit();
+		preferences.edit()
+				.putString(Constant.USERNAME, loginConfig.getUsername())
+				.commit();
+		preferences.edit()
+				.putString(Constant.PASSWORD, loginConfig.getPassword())
+				.commit();
+		preferences.edit()
+				.putBoolean(Constant.IS_AUTOLOGIN, loginConfig.isAutoLogin())
+				.commit();
+		preferences.edit()
+				.putBoolean(Constant.IS_NOVISIBLE, loginConfig.isNovisible())
+				.commit();
+		preferences.edit()
+				.putBoolean(Constant.IS_REMEMBER, loginConfig.isRemember())
+				.commit();
+		preferences.edit()
+				.putBoolean(Constant.IS_ONLINE, loginConfig.isOnline())
+				.commit();
+		preferences.edit()
+				.putBoolean(Constant.IS_FIRSTSTART, loginConfig.isFirstStart())
+				.commit();
+	}
+
+	public LoginConfig getLoginConfig() {
+		LoginConfig loginConfig = new LoginConfig();
+		String a = preferences.getString(Constant.XMPP_HOST, null);
+		String b = getResources().getString(R.string.xmpp_host);
+		loginConfig.setXmppHost(preferences.getString(Constant.XMPP_HOST,
+				getResources().getString(R.string.xmpp_host)));
+		loginConfig.setXmppPort(preferences.getInt(Constant.XMPP_PORT,
+				getResources().getInteger(R.integer.xmpp_port)));
+		loginConfig.setUsername(preferences.getString(Constant.USERNAME, null));
+		loginConfig.setPassword(preferences.getString(Constant.PASSWORD, null));
+		loginConfig.setXmppServiceName(preferences.getString(
+				Constant.XMPP_SEIVICE_NAME,
+				getResources().getString(R.string.xmpp_service_name)));
+		loginConfig.setAutoLogin(preferences.getBoolean(Constant.IS_AUTOLOGIN,
+				getResources().getBoolean(R.bool.is_autologin)));
+		loginConfig.setNovisible(preferences.getBoolean(Constant.IS_NOVISIBLE,
+				getResources().getBoolean(R.bool.is_novisible)));
+		loginConfig.setRemember(preferences.getBoolean(Constant.IS_REMEMBER,
+				getResources().getBoolean(R.bool.is_remember)));
+		loginConfig.setFirstStart(preferences.getBoolean(
+				Constant.IS_FIRSTSTART, true));
+		return loginConfig;
+	}
+
+	
+	
+	
 
 	
 	public static BaseApplication getInstance() {
@@ -331,4 +441,9 @@ public class BaseApplication extends Application {
 			}
 		}
 	}
+	
+	//TODO 经纬度   SESSIONID
+	
+	
+	
 }

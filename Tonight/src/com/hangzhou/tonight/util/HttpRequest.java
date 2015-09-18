@@ -11,8 +11,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.http.client.CookieStore;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import com.hangzhou.tonight.base.BaseApplication;
+
+import android.util.Log;
 
 /**
  * 
@@ -20,6 +29,10 @@ import java.util.Map;
  *
  */
 public class HttpRequest {
+	
+	
+	 private static DefaultHttpClient httpClient;
+
 
 	/**
 	 * 向指定URL发送GET方法的请求
@@ -104,6 +117,8 @@ public class HttpRequest {
 			// 发送POST请求必须设置如下两行
 			conn.setDoOutput(true);
 			conn.setDoInput(true);
+			 
+
 			// 获取URLConnection对象对应的输出流
 			out = new PrintWriter(conn.getOutputStream());
 			//@SuppressWarnings("deprecation")
@@ -153,6 +168,15 @@ public class HttpRequest {
             URL url = new URL(strUrlPath);  
              
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+            httpClient = new DefaultHttpClient();
+            
+            if(null!=BaseApplication.sessionId || !"".equals(BaseApplication.sessionId)){
+            	 Log.e("ssss","App.sessionId="+BaseApplication.sessionId);
+                    httpURLConnection.setRequestProperty("Cookie","PHPSESSID=" + BaseApplication.sessionId); 
+                    //httpPost.setHeader("Cookie", "PHPSESSID=" + PHPSESSID);
+
+            }
+            
             httpURLConnection.setConnectTimeout(5000);     //设置连接超时时间
             httpURLConnection.setDoInput(true);                  //打开输入流，以便从服务器获取数据
             httpURLConnection.setDoOutput(true);                 //打开输出流，以便向服务器提交数据
@@ -163,6 +187,8 @@ public class HttpRequest {
             httpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             //设置请求体的长度
             httpURLConnection.setRequestProperty("Content-Length", String.valueOf(data.length));
+            httpURLConnection.getPermission();
+           // httpURLConnection.setInstanceFollowRedirects(false); 
    
             //获得输出流，向服务器写入数据
             OutputStream outputStream = httpURLConnection.getOutputStream();
@@ -170,6 +196,21 @@ public class HttpRequest {
             
             int response = httpURLConnection.getResponseCode();            //获得服务器的响应码
             if(response == HttpURLConnection.HTTP_OK) {
+            	
+            	createSession(strUrlPath);
+            	
+            	
+            	/* CookieStore mCookieStore = httpClient.getCookieStore();
+                 List<Cookie> cookies = mCookieStore.getCookies();
+                 for (int i = 0; i < cookies.size(); i++) {
+                     //这里是读取Cookie['PHPSESSID']的值存在静态变量中，保证每次都是同一个值
+                     if ("PHPSESSID".equals(cookies.get(i).getName())) {
+                    	 BaseApplication.sessionId = cookies.get(i).getValue();
+                         break;
+                     }
+
+                 }*/
+            	
                 InputStream inptStream = httpURLConnection.getInputStream();
                 return dealResponseResult(inptStream);                     //处理服务器的响应结果
             }
@@ -218,9 +259,75 @@ public class HttpRequest {
         }
        resultData = new String(byteArrayOutputStream.toByteArray());    
        return resultData;
-   }    
+   } 
+   
+   
+   public synchronized static void createSession(String strUrlPath) {
+       
+	   
+       if(null==BaseApplication.sessionId || "".equals(BaseApplication.sessionId)){
+    	   BaseApplication.sessionCreateTime=new Date().getTime();
+               BaseApplication.sessionId=getSessionId(strUrlPath);
+               System.out.println("session创建！"+BaseApplication.sessionId);
+              
+       }
+        
+       //20分钟后更换session
+               long nowTime=new Date().getTime();
+               int min=(int)((nowTime-BaseApplication.sessionCreateTime)/(1000*60));
+       if(min>=15){
+    	   BaseApplication.sessionCreateTime=new Date().getTime();
+               BaseApplication.sessionId=getSessionId(strUrlPath);
+               System.out.println("session重新创建！");
+              
+       }else{
+    	   BaseApplication.sessionCreateTime=new Date().getTime();
+       }
 
-	
+}
+   
+   
+
+   public static String getSessionId(String strUrlPath){
+       
+       URL _url;
+       String sessionid=null; 
+       try {
+               _url = new URL(strUrlPath);
+                
+               HttpURLConnection con= (HttpURLConnection) _url.openConnection(); 
+               CookieStore mCookieStore = httpClient.getCookieStore();
+               List<Cookie> cookies = mCookieStore.getCookies();
+               for (int i = 0; i < cookies.size(); i++) {
+                   //这里是读取Cookie['PHPSESSID']的值存在静态变量中，保证每次都是同一个值
+                   if ("PHPSESSID".equals(cookies.get(i).getName())) {
+                	   sessionid = cookies.get(i).getValue();
+                       break;
+                   }
+
+               }
+
+                
+               // 取得sessionid. 
+             /*  String cookieval = con.getHeaderField("set-cookie"); 
+               sessionid = BaseApplication.sessionCreateTime+""; 
+                
+               if(cookieval != null) { 
+                   sessionid = cookieval.substring(0, cookieval.indexOf(";")); 
+               } */
+                
+                
+          //BaseApplication.sessionId=sessionid;
+                
+               con.disconnect();
+       } catch (Exception e) {
+               // TODO Auto-generated catch block
+               e.printStackTrace();
+       }
+        
+       return sessionid;
+}
+
 	
 	
 	

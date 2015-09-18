@@ -37,7 +37,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hangzhou.tonight.base.BaseActivity;
+import com.hangzhou.tonight.base.BaseApplication;
 import com.hangzhou.tonight.maintabs.MainActivity;
+import com.hangzhou.tonight.model.LoginConfig;
+import com.hangzhou.tonight.module.base.constant.SysModuleConstant;
+import com.hangzhou.tonight.module.base.dto.UserInfoDto;
 import com.hangzhou.tonight.service.IConnectionStatusCallback;
 import com.hangzhou.tonight.service.XXService;
 import com.hangzhou.tonight.util.Base64Utils;
@@ -82,6 +86,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	private XXService mXxService;
 	private String mAccount;
 	private String mPassword;
+	private LoginConfig loginConfig;
+	private String username;
+	private String password;
 
 	 // 整个平台的Controller, 负责管理整个SDK的配置、操作等处理
     private UMSocialService mController = UMServiceFactory
@@ -140,7 +147,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		// startService(new Intent(LoginActivity.this, XXService.class));
-		bindXMPPService();
+		//bindXMPPService();
 		initViews();
 		init();
 		initEvents();
@@ -222,6 +229,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		if (!TextUtils.isEmpty(password))
 			mPasswordEt.setText(password);
 
+		
+		loginConfig = BaseApplication.getInstance().getLoginConfig();
 	}
 
 	@Override
@@ -249,10 +258,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.login_btn_login:
-			/*
-			 * Intent intent = new Intent(LoginActivity.this,
-			 * MainActivity.class); startActivity(intent);
-			 */
+			//username = mAccountEt.getText().toString().trim();
+			//password = mPasswordEt.getText().toString().trim();
+			username ="1000000";
+			password ="ee3618e08444dba8ebd6e4dbd706b0c9";
 			login();
 			break;
 		case R.id.login_btn_register:
@@ -456,8 +465,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		});
     }*/
 	private void login() {
-		/*
-		 * if ((!validateAccount()) || (!validatePwd())) { return; }
+		
+		 /* if ((!validateAccount()) || (!validatePwd())) { 
+			  return; 
+			  }
 		 */
 
 		new AsyncTask<Void, Void, String>() {
@@ -488,6 +499,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 				System.out.println("用户登录结果：      " +result);
 				boolean success=dealResult(result);
 				if(success){
+					UserInfoDto.save(getContext(), result);
+					loginConfig.setPassword(password);
+					loginConfig.setUsername(username);
+					BaseApplication.getInstance().saveLoginConfig(loginConfig);
 					JsonResolveUtils.resolveuserLogin(result);
 					Intent intent = new Intent(LoginActivity.this, MainActivity.class); 
 					startActivity(intent);
@@ -503,8 +518,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	private Map<String, String> setParams(){
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, Object> parms = new HashMap<String, Object>();
-		parms.put("id", 1000003);
-		parms.put("password", "9d2b201382a3a8cf1342c1be422594d5");
+		//parms.put("id", username);
+		//parms.put("password", MD5Utils.md5(password));
+		parms.put("id", 1000000);
+		parms.put("password", "ee3618e08444dba8ebd6e4dbd706b0c9");
 		ArrayList<Object> arry = new ArrayList<Object>();
 		arry.add(0, "userLogin");
 		arry.add(1, 0);
@@ -642,5 +659,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 				mPassword);
 
 	}
+	
 
 }

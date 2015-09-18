@@ -13,6 +13,7 @@
         />
     
     <LinearLayout
+        android:id="@+id/individual_infomation_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -32,6 +33,7 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/individual_information_nick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -41,6 +43,7 @@
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/individual_information_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

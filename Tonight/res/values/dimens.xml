@@ -99,4 +99,6 @@
     <dimen name="phone_country_code_width">115.0dip</dimen>
     <dimen name="phone_country_code_padding">6.0dip</dimen>
 
+    <dimen name="custom_actionbar_handler_padding">21dp</dimen>
+    
 </resources>

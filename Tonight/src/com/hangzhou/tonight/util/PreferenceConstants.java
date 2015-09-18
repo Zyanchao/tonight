@@ -1,6 +1,12 @@
 package com.hangzhou.tonight.util;
 
 public class PreferenceConstants {
+	
+	public static final String UTF_8 = "utf-8";
+	public static final String ISO88591 = "ISO-8859-1";
+	/*** 系统默认传输编码 */
+	public static final String ENCODE = UTF_8;
+	
 	public static final String GMAIL_SERVER = "talk.google.com";
 	public static final String TONIGHT_SERVER = "http://115.29.246.139/"
 			+ "ton/tongateway.php";

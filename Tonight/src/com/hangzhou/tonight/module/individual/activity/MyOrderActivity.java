@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hangzhou.tonight.module.base.TabActivity;
 import com.hangzhou.tonight.module.individual.fragment.MyOrderFragment;
+import com.hangzhou.tonight.module.individual.fragment.MyOrderUnPayFragment;
 
 /**
  * 我的订单
@@ -19,7 +20,7 @@ public class MyOrderActivity extends TabActivity {
 		list.add(tabModel);
 		tabModel = new TabModel();
 		tabModel.title = "未支付";
-		tabModel.fragment = new MyOrderFragment();
+		tabModel.fragment = new MyOrderUnPayFragment();
 		list.add(tabModel);
 	}
 	

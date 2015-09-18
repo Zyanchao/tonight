@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.FrameLayout;
@@ -17,15 +16,19 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
-import com.hangzhou.tonight.ChatActivity;
 import com.hangzhou.tonight.LoginActivity;
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.activity.PromotionActivity;
+import com.hangzhou.tonight.base.BaseApplication;
+import com.hangzhou.tonight.manager.XmppConnectionManager;
+import com.hangzhou.tonight.model.LoginConfig;
 import com.hangzhou.tonight.module.individual.activity.IndividualActivity;
 import com.hangzhou.tonight.module.message.activity.MessageMainActivity;
+import com.hangzhou.tonight.module.social.activity.FindActivity;
 import com.hangzhou.tonight.service.IConnectionStatusCallback;
 import com.hangzhou.tonight.service.XXService;
 import com.hangzhou.tonight.util.L;
+import com.hangzhou.tonight.util.LoginTask2;
 import com.hangzhou.tonight.util.PreferenceConstants;
 import com.hangzhou.tonight.util.PreferenceUtils;
 import com.hangzhou.tonight.util.T;
@@ -37,6 +40,7 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 	private XXService mXxService;
 	
 	private TabHost mTabHost;
+	private LoginConfig loginConfig;
 
 	private FrameLayout layout1, layout2, layout3, layout4,layout5;
 
@@ -86,11 +90,24 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		startService(new Intent(MainActivity.this, XXService.class));
+		//startService(new Intent(MainActivity.this, XXService.class));
 		setContentView(R.layout.activity_main);
+		//开启服务
+		BaseApplication application=BaseApplication.getInstance();
+		application.startService();
+		loginConfig = application.getLoginConfig();
+		 XmppConnectionManager.getInstance().init(loginConfig);
+		LoginTask2 loginTask = new LoginTask2(MainActivity.this, loginConfig);
+		loginTask.execute();
 		initViews();
+		
+		
+		
+		
 	//	initTabs();
 	}
+	
+	
 	
 	private void initViews() {
 		mTabHost = getTabHost();
@@ -98,7 +115,7 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 		intent1.setClass(MainActivity.this, MerchantsHomeListActivity.class);
 		
 		Intent intent2 = new Intent();
-		intent2.setClass(MainActivity.this, BusinessActivity.class);
+		intent2.setClass(MainActivity.this, FindActivity.class);
 		
 		Intent intent3 = new Intent();
 		intent3.setClass(MainActivity.this, PromotionActivity.class);
@@ -252,7 +269,10 @@ public class MainActivity extends TabActivity implements IConnectionStatusCallba
 	@Override
 	protected void onResume() {
 		super.onResume();
-		bindXMPPService();
+		//bindXMPPService();
+		// 初始化xmpp配置
+	  
+	    
 	}
 	
 	

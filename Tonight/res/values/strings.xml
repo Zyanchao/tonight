@@ -52,6 +52,8 @@
 	<string name="exit_account">退出账号</string>
 	<string name="my_invitation_code">我的邀请码</string>
 	<string name="friends_gifts">好友礼包</string>
+	<string name="mycommission_pay">消费%1$s元</string>
+	<string name="money_ch">￥</string>
 	<!-- 消息模块 -->
 	<string name="message">消息</string>
 	<string name="good">赞</string>
@@ -63,7 +65,20 @@
 	<string name="praise_you">赞了你</string>
 	<string name="comment_your">评论你的</string>
 	
-	   <!-- 下拉刷新相关 -->
+	<string name="order_message_ordernum">订单号 : %1$s</string>
+	<!-- 社交模块 -->
+	<string name="find">发现</string>
+	<string name="tonight_circle">不夜圈</string>
+	<string name="group">群组</string>
+	<string name="friend">好友</string>
+	<string name="around_people">附近的人</string>
+	
+	<string name="input_phonenum_name">输入号码或名称</string>
+	<string name="friend_addressbook">通讯录好友</string>
+	<string name="friend_qq">QQ好友</string>
+	<string name="friend_wechat">微信好友</string>
+	<string name="add_friend">添加好友</string>
+	<!-- 下拉刷新相关 -->
     
     <string name="xlistview_header_hint_normal">下拉刷新</string>
     <string name="xlistview_header_hint_ready">松开刷新数据</string>

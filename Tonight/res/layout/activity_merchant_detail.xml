@@ -29,33 +29,21 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
                 android:background="#2F2B2F"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/x30" >
-                 <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingLeft="@dimen/x15"
-                 >
-                
-                <View 
-                    android:background="#50E3C2" 
-                    android:layout_width="@dimen/x10"
-                    android:layout_height="@dimen/x40"
-                    android:paddingLeft="@dimen/x15"
-                    />
 
                 <TextView
                     android:id="@+id/tv_plan_tip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/x10"
+                    android:layout_marginTop="@dimen/x20"
+                    android:paddingLeft="@dimen/x15"
                     android:text="酒吧介绍 ："
                     android:textColor="#72324F"
                     android:textSize="@dimen/x40" />
 
-                </LinearLayout>
                 <TextView
                     android:id="@+id/course_plan"
                     android:layout_width="wrap_content"
@@ -126,28 +114,15 @@
                 android:orientation="vertical"
                 android:paddingTop="@dimen/x20" >
 
-                
-                 <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingLeft="@dimen/x15"
-                 >
-                
-                <View 
-                    android:background="#ADA023" 
-                    android:layout_width="@dimen/x10"
-                    android:layout_height="@dimen/x40"
-                    android:paddingLeft="@dimen/x15"
-                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x20"
                     android:paddingLeft="@dimen/x15"
+                    android:paddingBottom="@dimen/x15"
                     android:text="店中活动 ："
                     android:textColor="#72324F"
                     android:textSize="@dimen/x40" />
-                </LinearLayout>
                 <View 
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/x2"
@@ -159,40 +134,26 @@
                 android:id="@+id/lv_ohter_acts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:divider="#242124"
+                android:divider="#2F2B2F"
                 android:dividerHeight="@dimen/x2" >
             </ListView>
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
                 android:background="#2F2B2F"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/x20" >
 
-                
-                  <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingLeft="@dimen/x15"
-                 >
-                
-                <View 
-                    android:background="#B8E986" 
-                    android:layout_width="@dimen/x10"
-                    android:layout_height="@dimen/x40"
-                    android:paddingLeft="@dimen/x15"
-                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                     android:paddingLeft="@dimen/x15"
+                    android:layout_marginTop="@dimen/x20"
+                    android:paddingLeft="@dimen/x15"
                     android:text="商家服务 ："
                     android:textColor="#72324F"
                     android:textSize="@dimen/x40" />
-                
-                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_xuzhi1"
@@ -211,13 +172,11 @@
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
-                    android:layout_height="@dimen/x110"
-                    android:layout_marginTop="@dimen/x3"
-                    android:id="@+id/rl_fuwu2"
-                    android:gravity="center_vertical"
-                    android:background="#383438">
+                    android:layout_height="wrap_content"
+                    android:background="#383438" >
 
                     <TextView
+                        android:id="@+id/tv_xuzhi2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="none"
@@ -225,6 +184,35 @@
                         android:lineSpacingMultiplier="1.2"
                         android:maxLines="10"
                         android:paddingLeft="@dimen/x45"
+                        android:paddingTop="@dimen/x15"
+                        android:scrollHorizontally="false"
+                        android:text="生日宴会策划"
+                        android:textSize="@dimen/x35" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/x15"
+                        android:src="@drawable/right_arrow" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" 
+                    android:layout_marginTop="@dimen/x3"
+                    android:background="#383438">
+
+                    <TextView
+                        android:id="@+id/tv_xuzhi3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="none"
+                        android:lineSpacingExtra="@dimen/x10"
+                        android:lineSpacingMultiplier="1.2"
+                        android:maxLines="10"
+                        android:paddingLeft="@dimen/x45"
+                        android:paddingTop="@dimen/x15"
                         android:scrollHorizontally="false"
                         android:text="预约代驾"
                         android:textSize="@dimen/x35" />
@@ -236,40 +224,6 @@
                         android:layout_marginRight="@dimen/x15"
                         android:src="@drawable/right_arrow" />
                 </RelativeLayout>
-                
-                <View 
-                    android:background="#231E23" 
-                    android:layout_width="fill_parent"
-                    android:layout_height="@dimen/x2"
-                    />
-                <RelativeLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="@dimen/x110"
-                    android:id="@+id/rl_fuwu1"
-                    android:gravity="center_vertical"
-                    android:background="#383438" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="none"
-                        android:lineSpacingExtra="@dimen/x10"
-                        android:lineSpacingMultiplier="1.2"
-                        android:maxLines="10"
-                        android:paddingLeft="@dimen/x45"
-                        android:scrollHorizontally="false"
-                        android:text="活动策划"
-                        android:textSize="@dimen/x35" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/x15"
-                        android:src="@drawable/right_arrow" />
-                </RelativeLayout>
-
-                
             </LinearLayout>
 
             <LinearLayout
@@ -280,28 +234,14 @@
                 android:orientation="vertical"
                 android:paddingTop="@dimen/x20" >
 
-                
-                 <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingLeft="@dimen/x15"
-                 >
-                
-                <View 
-                    android:background="#50E3C2" 
-                    android:layout_width="@dimen/x10"
-                    android:layout_height="@dimen/x40"
-                    android:paddingLeft="@dimen/x15"
-                    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="@dimen/x25"
+                    android:layout_marginTop="@dimen/x20"
+                    android:paddingLeft="@dimen/x15"
                     android:text="评 论 ："
                     android:textColor="#72324F"
                     android:textSize="@dimen/x40" />
-                </LinearLayout>
             </LinearLayout>
 
             <ListView
@@ -309,7 +249,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:divider="#2F2B2F"
-                android:dividerHeight="@dimen/x2" >
+                android:dividerHeight="@dimen/x1" >
             </ListView>
         </LinearLayout>
     </ScrollView>

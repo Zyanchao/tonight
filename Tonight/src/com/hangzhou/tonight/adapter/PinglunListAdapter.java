@@ -18,7 +18,6 @@ import com.hangzhou.tonight.entity.ActivesEntity;
 import com.hangzhou.tonight.entity.Entity;
 import com.hangzhou.tonight.entity.NearByPeople;
 import com.hangzhou.tonight.entity.PinglunEntity;
-import com.hangzhou.tonight.entity.ReviewsEntity;
 import com.hangzhou.tonight.util.PhotoUtils;
 
 public class PinglunListAdapter extends BaseObjectListAdapter {
@@ -56,13 +55,13 @@ public class PinglunListAdapter extends BaseObjectListAdapter {
 		}
 		//畅销套餐
 		//290元享价值总价值460元的雪花纯生啤酒套餐
-		ReviewsEntity people = (ReviewsEntity) getItem(position);
+		PinglunEntity people = (PinglunEntity) getItem(position);
 		holder.mTvfuwu.setTag(people);
-		holder.mTvfuwu.setText(people.getMark());
-		holder.mTvhuanjing.setText(people.getMark()+"");
-		holder.mTvname.setText(people.getNick()+"");
-		holder.mTvdesc.setText(people.getContent());
-		holder.mTvprice.setText(people.getMark());
+		holder.mTvfuwu.setText(people.getFuwu());
+		holder.mTvhuanjing.setText(people.getHuanjing()+"");
+		holder.mTvname.setText(people.getUserName()+"");
+		holder.mTvdesc.setText(people.getDes());
+		holder.mTvprice.setText(people.getPrice());
 		holder.mTvtime.setText(people.getTime());
 		//holder.mIvAvatar.setBackgroundResource(R.drawable.kc_picture);
 	//	holder.mIvAvatar.setImageBitmap(mApplication.getAvatar(people.getImg()));

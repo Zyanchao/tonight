@@ -9,22 +9,18 @@ package com.hangzhou.tonight.entity;
  */
 public class OtherActsEntity extends Entity {
 
-	private String title;
-	private String img;
-	private String value;
-	private String price;
-	private String sales_num;
-
+	
+private String title;
 public String getTitle() {
 	return title;
 }
 public void setTitle(String title) {
 	this.title = title;
 }
-public String getImg() {
+public String[] getImg() {
 	return img;
 }
-public void setImg(String img) {
+public void setImg(String[] img) {
 	this.img = img;
 }
 public String getValue() {
@@ -45,7 +41,10 @@ public String getSales_num() {
 public void setSales_num(String sales_num) {
 	this.sales_num = sales_num;
 }
-
+private String[] img;
+private String value;
+private String price;
+private String sales_num;
 
 
 

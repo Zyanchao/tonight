@@ -31,8 +31,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.ab.view.listener.AbOnItemClickListener;
 import com.ab.view.sliding.AbSlidingPlayView;
-import com.ab.view.sliding.AbSlidingPlayView.AbOnItemClickListener;
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.activity.MerchantDetailActivity;
 import com.hangzhou.tonight.activity.PromotionActivity;
@@ -113,7 +113,7 @@ OnClickListener, IXListViewListener{
 		xListView = (XListView) findViewById(R.id.merchant_list);
 		xListView.addHeaderView(mPlayViews);
 		mAbSlidingPlayView = (AbSlidingPlayView) findViewById(R.id.mAbSlidingPlayView);
-		mAbSlidingPlayView.setNavHorizontalGravity(Gravity.CENTER);
+		//mAbSlidingPlayView.setNavHorizontalGravity(Gravity.CENTER);
 		// mAbSlidingPlayView.setParentHScrollView(menuLayout);
 		
 

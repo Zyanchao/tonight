@@ -18,7 +18,6 @@
         android:layout_height="wrap_content" 
         android:text="按人气"
         android:layout_gravity="center"
-        android:background="@drawable/btn_style_sort"
         android:paddingTop="@dimen/x15"
          android:paddingBottom="@dimen/x15"
         android:layout_marginTop="@dimen/x45"
@@ -30,7 +29,7 @@
         android:layout_height="wrap_content" 
         android:layout_gravity="center"
         android:text="按价格"
-         android:background="@drawable/btn_style_sort"
+         
          android:paddingTop="@dimen/x15"
           android:paddingBottom="@dimen/x15"
          android:layout_marginTop="@dimen/x25"
@@ -43,7 +42,7 @@
         android:layout_height="wrap_content" 
         android:text="按好评"
         android:layout_gravity="center"
-         android:background="@drawable/btn_style_sort"
+         
          android:paddingTop="@dimen/x15"
           android:paddingBottom="@dimen/x15"
          android:layout_marginTop="@dimen/x25"
@@ -54,7 +53,7 @@
         android:layout_height="wrap_content" 
         android:text="按距离"
         android:layout_gravity="center"
-        android:background="@drawable/btn_style_sort"
+        
         android:paddingTop="@dimen/x15"
         android:paddingBottom="@dimen/x15"
         android:layout_marginTop="@dimen/x25"

@@ -10,7 +10,7 @@ public class ReviewsEntity extends Entity{
 	private String nick;
 	private String mark;
 	private String content;
-	private String img;
+	private String []img;
 	private String time;
 	
 	public String getUid() {
@@ -37,10 +37,10 @@ public class ReviewsEntity extends Entity{
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getImg() {
+	public String[] getImg() {
 		return img;
 	}
-	public void setImg(String img) {
+	public void setImg(String[] img) {
 		this.img = img;
 	}
 	public String getTime() {

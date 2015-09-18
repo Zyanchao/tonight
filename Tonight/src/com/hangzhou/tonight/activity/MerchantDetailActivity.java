@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import u.aly.bu;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -23,7 +21,6 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.PopupWindow.OnDismissListener;
 
@@ -43,7 +40,6 @@ import com.hangzhou.tonight.entity.ReviewsEntity;
 import com.hangzhou.tonight.maintabs.TabItemActivity;
 import com.hangzhou.tonight.util.Base64Utils;
 import com.hangzhou.tonight.util.HttpRequest;
-import com.hangzhou.tonight.util.IntentJumpUtils;
 import com.hangzhou.tonight.util.JsonResolveUtils;
 import com.hangzhou.tonight.util.JsonUtils;
 import com.hangzhou.tonight.util.PreferenceConstants;
@@ -72,7 +68,14 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 
 	private TextView tvBack,tvTitle;
 	private Context mContext;
+	private HeaderLayout mHeaderLayout;
+	private HeaderSpinner mHeaderSpinner;
+	//private PromotionListFragment mPeopleFragment;
+	private Handler mHander;
 	private MerchantInfo sellerInfo;
+	private int currentPage=1,//当期页码
+            pageCount = 1,//总页数
+            pageSize = 15;//每页数据量
 	
 	private ActivesListAdapter mAdapter;
 	public List<ActivesEntity> mActives = new ArrayList<ActivesEntity>();
@@ -82,7 +85,7 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 	private ListView lvacts,lvpinglun;
 	private PinglunListAdapter pinglunAdapter;
 	private OtherActsListAdapter otherActsListAdapter;
-	private RelativeLayout re_fuwu1,re_fuwu2;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +97,7 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 		initViews();
 		initEvents();
 		init();
-		getDataDetail();
+		getDataDetail(currentPage);
 	}
 	
 	@Override
@@ -103,34 +106,125 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 		tvTitle = (TextView) findViewById(R.id.tv_title);
 		lvacts = (ListView) findViewById(R.id.lv_ohter_acts);
 		lvpinglun = (ListView) findViewById(R.id.lv_pinglun);
-		re_fuwu1 = (RelativeLayout) findViewById(R.id.rl_fuwu1);
-		re_fuwu2 = (RelativeLayout) findViewById(R.id.rl_fuwu2);
+		//mHeaderLayout = (HeaderLayout) findViewById(R.id.nearby_header);
 	}
 
 	@Override
 	protected void initEvents() {
 		tvBack.setOnClickListener(this);
-		re_fuwu1.setOnClickListener(this);
-		re_fuwu2.setOnClickListener(this);
 	}
 
 	@Override
 	protected void init() {
+		mHander = new Handler();
 		tvTitle.setText(name);
+		
+		pinglunAdapter = new PinglunListAdapter(mApplication, mContext, mpingluns);
+		lvpinglun.setAdapter(pinglunAdapter);
+		pinglunAdapter.notifyDataSetInvalidated();
+		ScreenUtils.setListViewHeightBasedOnChildren(lvpinglun);
+		
+		otherActsListAdapter = new OtherActsListAdapter(mApplication, mContext, motheracts);
+		lvacts.setAdapter(otherActsListAdapter);
+		otherActsListAdapter.notifyDataSetInvalidated();
+		ScreenUtils.setListViewHeightBasedOnChildren(lvacts);
+		/*mPeopleFragment = new PromotionListFragment(mApplication, this, this);
+		//mGroupFragment = new NearByGroupFragment(mApplication, this, this);
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		ft.replace(R.id.nearby_layout_content, mPeopleFragment).commit();*/
 	}
 
+	private void initPopupWindow() {
+		/*mPopupWindow = new NearByPopupWindow(this);
+		mPopupWindow.setOnSubmitClickListener(new onSubmitClickListener() {
+
+			@Override
+			public void onClick() {
+				mPeopleFragment.onManualRefresh();
+			}
+		});
+		mPopupWindow.setOnDismissListener(new OnDismissListener() {
+
+			@Override
+			public void onDismiss() {
+				mHeaderSpinner.initSpinnerState(false);
+			}
+		});*/
+	}
+
+	/*public class OnSpinnerClickListener implements onSpinnerClickListener {
+
+		@Override
+		public void onClick(boolean isSelect) {
+			if (isSelect) {
+				mPopupWindow
+						.showViewTopCenter(findViewById(R.id.nearby_layout_root));
+			} else {
+				mPopupWindow.dismiss();
+			}
+		}
+	}*/
+
+	public class OnSearchClickListener implements onSearchListener {
+
+		@Override
+		public void onSearch(EditText et) {
+			String s = et.getText().toString().trim();
+			if (TextUtils.isEmpty(s)) {
+				showCustomToast("请输入搜索关键字");
+				et.requestFocus();
+			} else {
+				((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+						.hideSoftInputFromWindow(MerchantDetailActivity.this
+								.getCurrentFocus().getWindowToken(),
+								InputMethodManager.HIDE_NOT_ALWAYS);
+				putAsyncTask(new AsyncTask<Void, Void, Boolean>() {
+
+					@Override
+					protected void onPreExecute() {
+						super.onPreExecute();
+						mHeaderLayout.changeSearchState(SearchState.SEARCH);
+					}
+
+					@Override
+					protected Boolean doInBackground(Void... params) {
+						try {
+							Thread.sleep(2000);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						return false;
+					}
+
+					@Override
+					protected void onPostExecute(Boolean result) {
+						super.onPostExecute(result);
+						mHeaderLayout.changeSearchState(SearchState.INPUT);
+						showCustomToast("未找到搜索的群");
+					}
+				});
+			}
+		}
+
+	}
 
 	
 	/**
 	
 	* @Title: getDataList 
+	
 	* @Description: TODO(网络请求 活动列表数据) 
+	
 	* @param     设定文件 
+	
 	* @return void    返回类型 
+	
 	* @throws
 	 */
-	private void getDataDetail() {
+	private void getDataDetail(final int currentPage) {
 		new AsyncTask<Void, Void, String>() {
+
+			
 
 			@Override
 			protected void onPreExecute() {
@@ -141,7 +235,7 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 			@Override
 			protected String doInBackground(Void... params) {
 
-				Map<String, String> param =setParams();
+				Map<String, String> param =setParams(currentPage);
 				
 				return HttpRequest.submitPostData(PreferenceConstants.TONIGHT_SERVER,
 						param, "UTF-8");
@@ -153,31 +247,27 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 				super.onPostExecute(result);
 				dismissLoadingDialog();
 				JSONObject jsonObject = JSON.parseObject(result);
+				
+				
 				JSONObject seller = jsonObject.getJSONObject("sellerInfo"); 
 				sellerInfo = JSON.parseObject(jsonObject.toString(), MerchantInfo.class);
+				try {
+					com.alibaba.fastjson.JSONArray jsonArrayacts = jsonObject.getJSONArray("acts");
+					motheracts = JSON.parseArray(jsonArrayacts.toString(),OtherActsEntity.class);
+					
+					com.alibaba.fastjson.JSONArray jsonArray = jsonObject.getJSONArray("reviews");
+					mpingluns = JSON.parseArray(jsonArray.toString(),ReviewsEntity.class);
+					showCustomToast(result);
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
 				
-				com.alibaba.fastjson.JSONArray jsonArrayacts = jsonObject.getJSONArray("acts");
-				motheracts = JSON.parseArray(jsonArrayacts.toString(),OtherActsEntity.class);
-				
-				otherActsListAdapter = new OtherActsListAdapter(mApplication, mContext, motheracts);
-				lvacts.setAdapter(otherActsListAdapter);
-				otherActsListAdapter.notifyDataSetInvalidated();
-				ScreenUtils.setListViewHeightBasedOnChildren(lvacts);
-				
-				com.alibaba.fastjson.JSONArray jsonArray = jsonObject.getJSONArray("reviews");
-				mpingluns = JSON.parseArray(jsonArray.toString(),ReviewsEntity.class);
-				
-				
-				pinglunAdapter = new PinglunListAdapter(mApplication, mContext, mpingluns);
-				lvpinglun.setAdapter(pinglunAdapter);
-				pinglunAdapter.notifyDataSetInvalidated();
-				ScreenUtils.setListViewHeightBasedOnChildren(lvpinglun);
 			}
 		}.execute();
 		
 	}
 
-	private Map<String, String> setParams(){
+	private Map<String, String> setParams(int currentPage){
 		
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, Object> parms = new HashMap<String, Object>();
@@ -211,24 +301,57 @@ public class MerchantDetailActivity extends TabItemActivity implements OnClickLi
 		
 	}
 
+	public class OnMiddleImageButtonClickListener implements
+			onMiddleImageButtonClickListener {
 
+		@Override
+		public void onClick() {
+			mHeaderLayout.showSearch();
+		}
+	}
 
+	/*public class OnSwitcherButtonClickListener implements
+			onSwitcherButtonClickListener {
+
+		@Override
+		public void onClick(SwitcherButtonState state) {
+			FragmentTransaction ft = getSupportFragmentManager()
+					.beginTransaction();
+			ft.setCustomAnimations(R.anim.fragment_fadein,
+					R.anim.fragment_fadeout);
+			switch (state) {
+			case LEFT:
+				mHeaderLayout.init(HeaderStyle.TITLE_NEARBY_PEOPLE);
+				ft.replace(R.id.nearby_layout_content, mPeopleFragment)
+						.commit();
+				break;
+
+			case RIGHT:
+				mHeaderLayout.init(HeaderStyle.TITLE_NEARBY_GROUP);
+				ft.replace(R.id.nearby_layout_content, mGroupFragment).commit();
+				break;
+			}
+		}
+
+	}*/
+
+	@Override
+	public void onBackPressed() {
+		if (mHeaderLayout.searchIsShowing()) {
+			clearAsyncTask();
+			mHeaderLayout.dismissSearch();
+			mHeaderLayout.clearSearch();
+			mHeaderLayout.changeSearchState(SearchState.INPUT);
+		} else {
+			finish();
+		}
+	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tv_header_back:
 			finish();
-			break;
-		case R.id.rl_fuwu1:
-			Bundle bundle = new Bundle();
-			bundle.putString("id",seller_id);
-			IntentJumpUtils.nextActivity(BrDayServerActivity.class, MerchantDetailActivity.this,bundle);
-			break;
-		case R.id.rl_fuwu2:
-			Bundle bundle2 = new Bundle();
-			bundle2.putString("id",seller_id);
-			IntentJumpUtils.nextActivity(DriverServerActivity.class, MerchantDetailActivity.this,bundle2);
 			break;
 			
 		default:

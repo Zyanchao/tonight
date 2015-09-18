@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:divider="@drawable/divider_listview_item"
     android:dividerHeight="0.5dp"
-    android:scrollbars="none" >
+    android:scrollbars="none"
+    android:background="@color/bg_color" >
 
 </ListView>

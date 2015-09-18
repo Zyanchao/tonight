@@ -1,6 +1,7 @@
 package com.hangzhou.tonight.dialog;
 
 import android.content.Context;
+import android.view.View;
 
 import com.hangzhou.tonight.R;
 import com.hangzhou.tonight.base.BaseDialog;
@@ -22,6 +23,7 @@ public class FlippingLoadingDialog extends BaseDialog {
 	private void init() {
 		setContentView(R.layout.common_flipping_loading_diloag);
 		mFivIcon = (FlippingImageView) findViewById(R.id.loadingdialog_fiv_icon);
+		mFivIcon.setVisibility(View.GONE);
 		mHtvText = (HandyTextView) findViewById(R.id.loadingdialog_htv_text);
 		mFivIcon.startAnimation();
 		mHtvText.setText(mText);
