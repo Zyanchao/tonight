@@ -84,7 +84,7 @@ public class MerchantListAdapter extends BaseObjectListAdapter {
     	//Toast.makeText(mContext, lati+""+lonti+""+addr, 1).show();
     	
     	//holder.distance.setText((int)(distance/1000)+"km");
-		holder.mTvcharge.setText(people.getPrice()+"元");
+		holder.mTvcharge.setText("￥"+people.getPrice());
 		imageLoader.displayImage(Config.ACT_IMG+people.getImg(), holder.mIvAvatar,options);
 	//	holder.mIvAvatar.setImageBitmap(mApplication.getAvatar(people.getImg()));
 		return convertView;

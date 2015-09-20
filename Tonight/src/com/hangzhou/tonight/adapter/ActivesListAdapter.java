@@ -19,7 +19,9 @@ import com.hangzhou.tonight.base.Config;
 import com.hangzhou.tonight.entity.ActivesEntity;
 import com.hangzhou.tonight.entity.Entity;
 import com.hangzhou.tonight.entity.NearByPeople;
+import com.hangzhou.tonight.util.MyPreference;
 import com.hangzhou.tonight.util.PhotoUtils;
+import com.hangzhou.tonight.util.ScreenUtils;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
@@ -74,16 +76,16 @@ public class ActivesListAdapter extends BaseObjectListAdapter {
 		holder.mTvtitle.setText(people.getTitle()+"");
 		holder.mTvdescribe.setText(people.getDes()+"");
 		
-		LatLng pt_start = new LatLng(Double.parseDouble(people.getLat()), Double.parseDouble(people.getLon()));
+		//LatLng pt_start = new LatLng(Double.parseDouble(people.getLat()), Double.parseDouble(people.getLon()));
     	
     	
-    	//LatLng pt_end = new LatLng(w, j);
-		//double distance = DistanceUtil.getDistance(pt_start, pt_end);
+    	//LatLng pt_end = new LatLng(Double.parseDouble(MyPreference.getInstance(mContext).getLocation_w()), Double.parseDouble(MyPreference.getInstance(mContext).getLocation_j()));
+		double distance = ScreenUtils.gps2m(Double.parseDouble(people.getLat()), Double.parseDouble(people.getLon()), Double.parseDouble(MyPreference.getInstance(mContext).getLocation_w()), Double.parseDouble(MyPreference.getInstance(mContext).getLocation_j()));
     	
     	//Toast.makeText(mContext, lati+""+lonti+""+addr, 1).show();
     	
-    	//holder.distance.setText((int)(distance/1000)+"km");
-		holder.mTvdistance.setText("1k");
+    	holder.mTvdistance.setText((int)(distance/1000)+"km");
+		//holder.mTvdistance.setText("1k");
 		holder.mTvcharge.setText(people.getPrice()+"元");
 		//holder.mIvAvatar.setBackgroundResource(R.drawable.kc_picture);
 		imageLoader.displayImage(Config.ACT_IMG+people.getImg(), holder.mIvAvatar,options);

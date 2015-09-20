@@ -31,6 +31,12 @@ public class ActivesInfo extends ActivesEntity {
 	
 	private String phone;
 	private String content;//(活动详情)，
+	private ReviewsEntity reviews;
+	
+	
+	
+	
+	
 	public String getContent() {
 		return content;
 	}
@@ -56,7 +62,7 @@ public class ActivesInfo extends ActivesEntity {
 	public void setReviews(ReviewsEntity reviews) {
 		this.reviews = reviews;
 	}
-	private ReviewsEntity reviews;
+	
 	
 	
 	

@@ -2,20 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/x360"
+    android:layout_height="@dimen/x370"
     android:background="#312D31"
     android:minHeight="@dimen/x360" >
 
     <ImageView
         android:id="@+id/kc_Img"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x360"
+        android:layout_height="@dimen/x370"
         android:scaleType="fitXY"
         android:src="@drawable/kc_picture" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/x360"
+        android:layout_height="@dimen/x370"
         android:layout_alignParentTop="true"
         android:background="#26000000"
         android:orientation="horizontal" >
@@ -93,6 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/x5"
+            android:layout_marginRight="@dimen/x25"
             android:orientation="horizontal" >
 
             <TextView

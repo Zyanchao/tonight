@@ -162,7 +162,6 @@ public class PromotionActivity extends TabItemActivity implements
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			
-			
 				ActivesEntity bean  = new ActivesEntity();
 				TextView tv = (TextView) view.findViewById(R.id.tv_title);
 				bean = (ActivesEntity) tv.getTag();
@@ -292,7 +291,6 @@ public class PromotionActivity extends TabItemActivity implements
 			JSONObject object = null;
 			for (int i = 0; i < jsonArray.length(); i++) {
 				object = jsonArray.getJSONObject(i);
-
 				String act_id = object.getString("act_id");
 				String title = object.getString("title");
 				String des = object.getString("des");
@@ -403,7 +401,7 @@ public class PromotionActivity extends TabItemActivity implements
 		case R.id.title_search://搜索
 			
 			mPopupWindow = new PopupWindow(sortlist, 450, LayoutParams.WRAP_CONTENT);
-			mPopupWindow.showAsDropDown(index_head, ScreenUtils.getScreenWidth(mContext)/3, 200);
+			mPopupWindow.showAsDropDown(index_head, ScreenUtils.getScreenWidth(mContext)/5, 200);
 			break;
 			
 			case R.id.bt_rq:

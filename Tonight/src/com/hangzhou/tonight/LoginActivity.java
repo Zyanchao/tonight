@@ -15,6 +15,8 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.http.Header;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -37,11 +39,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.hangzhou.tonight.base.BaseActivity;
-import com.hangzhou.tonight.base.BaseApplication;
 import com.hangzhou.tonight.maintabs.MainActivity;
-import com.hangzhou.tonight.model.LoginConfig;
-import com.hangzhou.tonight.module.base.constant.SysModuleConstant;
-import com.hangzhou.tonight.module.base.dto.UserInfoDto;
 import com.hangzhou.tonight.service.IConnectionStatusCallback;
 import com.hangzhou.tonight.service.XXService;
 import com.hangzhou.tonight.util.Base64Utils;
@@ -51,6 +49,7 @@ import com.hangzhou.tonight.util.JsonResolveUtils;
 import com.hangzhou.tonight.util.JsonUtils;
 import com.hangzhou.tonight.util.L;
 import com.hangzhou.tonight.util.MD5Utils;
+import com.hangzhou.tonight.util.MyPreference;
 import com.hangzhou.tonight.util.PreferenceConstants;
 import com.hangzhou.tonight.util.PreferenceUtils;
 import com.hangzhou.tonight.util.RC4Utils;
@@ -86,9 +85,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	private XXService mXxService;
 	private String mAccount;
 	private String mPassword;
-	private LoginConfig loginConfig;
-	private String username;
-	private String password;
 
 	 // 整个平台的Controller, 负责管理整个SDK的配置、操作等处理
     private UMSocialService mController = UMServiceFactory
@@ -147,17 +143,17 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		// startService(new Intent(LoginActivity.this, XXService.class));
-		//bindXMPPService();
+		bindXMPPService();
 		initViews();
 		init();
 		initEvents();
 		
 		
-		/* //参数1为当前Activity， 参数2为开发者在QQ互联申请的APP ID，参数3为开发者在QQ互联申请的APP kEY.
-		UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(this, "1103176396","iY2uCRqXmaooIL7b");
+		 //参数1为当前Activity， 参数2为开发者在QQ互联申请的APP ID，参数3为开发者在QQ互联申请的APP kEY.
+		UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(this, "1104785217","D1R5KR1UJUOxRQrB");
 		qqSsoHandler.addToSocialSDK();
 		
-		UMWXHandler wxHandler =new UMWXHandler(this, "wxbc29ec947c61f0e1", "3f7f7b0bbf4d48f3dcc2647d95c3c688");
+		UMWXHandler wxHandler =new UMWXHandler(this, "wx17271e32d3c796f0", "396caedd6352a115a83de18ef48045ab");
 		wxHandler.addToSocialSDK();
 		
 		//设置新浪SSO handler
@@ -184,7 +180,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	      }
 	    }
 	  };
-	  mController.registerListener(mSnsPostListener);*/
+	  mController.registerListener(mSnsPostListener);
 		
 	}
 
@@ -229,8 +225,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 		if (!TextUtils.isEmpty(password))
 			mPasswordEt.setText(password);
 
-		
-		loginConfig = BaseApplication.getInstance().getLoginConfig();
 	}
 
 	@Override
@@ -258,11 +252,15 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.login_btn_login:
-			//username = mAccountEt.getText().toString().trim();
-			//password = mPasswordEt.getText().toString().trim();
-			username ="1000000";
-			password ="ee3618e08444dba8ebd6e4dbd706b0c9";
+			/*
+			 * Intent intent = new Intent(LoginActivity.this,
+			 * MainActivity.class); startActivity(intent);
+			 */
 			login();
+			/*if(validateAccount()){
+				
+			}*/
+			
 			break;
 		case R.id.login_btn_register:
 			Intent intent2 = new Intent(LoginActivity.this,
@@ -281,13 +279,16 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			break;
 			
 		case R.id.im_sina:
-			login(SHARE_MEDIA.SINA,2);
+			Toast.makeText(this, "暂未开通", 1000).show();
+			/*login(SHARE_MEDIA.SINA,2);*/
 			break;
 		case R.id.im_qq:
-			login(SHARE_MEDIA.QQ,3);
+			Toast.makeText(this, "暂未开通", 1000).show();
+			/*login(SHARE_MEDIA.QQ,3);*/
 			break;
 		case R.id.im_wechat:
-			login(SHARE_MEDIA.WEIXIN,1);
+			Toast.makeText(this, "暂未开通", 1000).show();
+			/*login(SHARE_MEDIA.WEIXIN,1);*/
 			break;
 
 		default:
@@ -301,6 +302,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	 * @param i 
      */
     private void login(final SHARE_MEDIA platform, final int i) {
+    	
     	mController.doOauthVerify(this, platform,new UMAuthListener() {
             private String openid;
 			@Override
@@ -365,6 +367,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
     	                	screen_name=info.get("nickname").toString();
     	                	sex=info.get("sex").toString();
     	                	//Toast.makeText(LoginActivity.this, "登录...onlyId"+onlyId,Toast.LENGTH_SHORT).show();
+    	                	isBind(onlyId,1);
     	                	 // isBund(String.valueOf(2),onlyId,head_img,screen_name,sex);
     	                }else if(i==2){
     	                	//新浪微博登录，获得uid
@@ -372,6 +375,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
     	                	head_img=info.get("profile_image_url").toString();
     	                	screen_name=info.get("screen_name").toString();
     	                	sex=info.get("gender").toString();
+    	                	isBind(onlyId,2);
     	                	//Toast.makeText(LoginActivity.this, "登录...onlyId"+onlyId,Toast.LENGTH_SHORT).show();
     	                	//isBund(String.valueOf(3),onlyId,head_img,screen_name,sex);
     	                }else{
@@ -385,6 +389,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
     	                	}else{
     	                		sex="0";
     	                	}
+    	                	isBind(onlyId,3);
     	                	//Toast.makeText(LoginActivity.this, "登录...onlyId"+onlyId,Toast.LENGTH_SHORT).show();
     	                	//isBund(String.valueOf(1),onlyId,head_img,screen_name,sex);
     	                }
@@ -464,11 +469,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 			}
 		});
     }*/
-	private void login() {
-		
-		 /* if ((!validateAccount()) || (!validatePwd())) { 
-			  return; 
-			  }
+    
+    
+    private void isBind(final String uid,final int type) {
+		/*
+		 * if ((!validateAccount()) || (!validatePwd())) { return; }
 		 */
 
 		new AsyncTask<Void, Void, String>() {
@@ -499,12 +504,123 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 				System.out.println("用户登录结果：      " +result);
 				boolean success=dealResult(result);
 				if(success){
-					UserInfoDto.save(getContext(), result);
-					loginConfig.setPassword(password);
-					loginConfig.setUsername(username);
-					BaseApplication.getInstance().saveLoginConfig(loginConfig);
 					JsonResolveUtils.resolveuserLogin(result);
 					Intent intent = new Intent(LoginActivity.this, MainActivity.class); 
+					startActivity(intent);
+					finish();
+				}else{
+					showCustomToast("账号或密码错误,请检查是否输入正确");
+				}
+			}
+		}.execute();
+	}
+    
+    
+	private void login() {
+		/*
+		 * if ((!validateAccount()) || (!validatePwd())) { return; }
+		 */
+
+		new AsyncTask<Void, Void, String>() {
+
+			private String uid;
+			private String nick;
+			private String birth;
+			private String sex;
+			private String phone;
+			private String money;
+			private String favorite;
+			private String praised;
+			private String groups;
+			private String friends;
+
+			@Override
+			protected void onPreExecute() {
+				super.onPreExecute();
+				showLoadingDialog("正在登录,请稍后...");
+			}
+
+			@Override
+			protected String doInBackground(Void... params) {
+
+				Map<String, String> param =setParams();
+				return HttpRequest.submitPostData(PreferenceConstants.TONIGHT_SERVER,
+						param, "UTF-8");
+			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				super.onPostExecute(result);
+				dismissLoadingDialog();
+				/*
+				 * if (result) { Intent intent = new Intent(LoginActivity.this,
+				 * MainActivity.class); startActivity(intent); finish(); } else
+				 * { showCustomToast("账号或密码错误,请检查是否输入正确"); }
+				 */
+				System.out.println("用户登录结果：      " +result);
+				boolean success=dealResult(result);
+				if(success){
+					JSONObject object;
+					
+					
+					 /*"uid": "9000034",
+					    "favorite": [],
+					    "praised": [],
+					    "groups": [],
+					    "friends": [],
+					    "nick": "nickname",
+					    "birth": "1988-09-09",
+					    "sex": "1",
+					    "phone": "15225095589",
+					    "money": "0.00",
+					    "paypass": "0",
+					    "s": 1*/
+					try {
+						object = new JSONObject(result);
+						uid = object.getString("uid");
+						nick = object.getString("nick");
+						birth = object.getString("birth");
+						sex = object.getString("sex");
+						phone = object.getString("phone");
+						money = object.getString("money");
+						favorite = object.getString("favorite");
+						praised = object.getString("praised");
+						groups = object.getString("groups");
+						friends = object.getString("friends");
+						
+						
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					
+					
+					
+					MyPreference.getInstance(LoginActivity.this).setUserId(uid);
+					MyPreference.getInstance(LoginActivity.this).setTelNumber(phone);
+					MyPreference.getInstance(LoginActivity.this).setUserSex(sex);
+					MyPreference.getInstance(LoginActivity.this).setUserName(nick);
+					MyPreference.getInstance(LoginActivity.this).setUserbirth(birth);
+					MyPreference.getInstance(LoginActivity.this).setFact(favorite);
+					MyPreference.getInstance(LoginActivity.this).setUserPraised(praised);
+					MyPreference.getInstance(LoginActivity.this).setUserGroups(groups);
+					MyPreference.getInstance(LoginActivity.this).setUserFrinds(friends);
+					Intent intent = new Intent(LoginActivity.this, MainActivity.class); 
+					
+					
+					/*uid；
+					nick(⽤用户昵称)；
+					birth(如2014-1-1)；
+					sex(1男,0⼥女)；
+					phone；
+					money(余额)；
+					favorite(收藏的活动ID数组)；
+					praised(点赞过的动态ID数组)；
+					groups(加⼊入的群组的map){gid，position(群内
+					位置，1:群主,9:普通成员)，time(加群时间)}；
+					friends(好友uid数组)；
+					*/
 					startActivity(intent);
 					finish();
 				}else{
@@ -518,10 +634,21 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	private Map<String, String> setParams(){
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, Object> parms = new HashMap<String, Object>();
-		//parms.put("id", username);
-		//parms.put("password", MD5Utils.md5(password));
-		parms.put("id", 1000000);
-		parms.put("password", "ee3618e08444dba8ebd6e4dbd706b0c9");
+		
+		/*parms.put("id", 1000003);
+		parms.put("password", "9d2b201382a3a8cf1342c1be422594d5");
+		*/
+		
+		/*登录密码= md5(substr(md5("sq".$password), 0,27).”ton”);
+		如密码为51tonight则为: md5(“sq51tonight”)=“16d88e6ba9fbbbf04c5ca181ba6f16f7”，之后截取32位的前27位，得“16d88e6ba9fbbbf04c5ca181ba6”，然后该字
+		符串再拼接ton之后再md5，即md5(“16d88e6ba9fbbbf04c5ca181ba6ton”)所得即为登录密码“7084f8139b3ecb942258288336f792c3”;
+		其中md5采⽤用32位⼩小写*/
+		parms.put("id", mAccountEt.getText().toString());
+		mPassword = "sq"+mPasswordEt.getText().toString();
+		String pw = MD5Utils.md5(mPassword).substring(0, 27);
+		String dd = pw+"ton";
+		String pwd = MD5Utils.md5(dd);
+		parms.put("password", pwd);
 		ArrayList<Object> arry = new ArrayList<Object>();
 		arry.add(0, "userLogin");
 		arry.add(1, 0);
@@ -651,7 +778,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 	}
 
 	
-
 	private void save2Preferences() {
 		PreferenceUtils.setPrefString(this, PreferenceConstants.ACCOUNT,
 				mAccount);
@@ -659,6 +785,5 @@ public class LoginActivity extends BaseActivity implements OnClickListener,
 				mPassword);
 
 	}
-	
 
 }

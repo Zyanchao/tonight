@@ -18,8 +18,13 @@ public class MyPreference {
 	private static final String HAS_LOGIN = "hasLogin";//是否处于登录状态
 	private static final String HEAD_IMG_PATH = "headImgPath";//头像path
 	private static final String USER_NAME = "userName";//用户昵称
+	private static final String USER_BIRTH = "birth";//生日
 	private static final String USER_ID = "userId";//user id
 	private static final String USER_SEX = "userSex";
+	private static final String USER_FAT = "userFat";
+	private static final String USER_PRAISED = "praised";
+	private static final String USER_GROUPS = "groups";
+	private static final String USER_FRIENDS = "friends";
 	private static final String TOKEN_ID = "token";//token
 	private static final String TEL_NUMBER = "tel_number";//电话号码
 	private static final String ISFIRSTCLICKPHOTO="isFirstClikcPhoto";
@@ -165,6 +170,44 @@ public class MyPreference {
 		edit.commit();
 	}
 	
+	public String getUserBirth(){
+		String birth = sharedPreference.getString(USER_BIRTH, "1988-7-9");
+		return birth;
+	}
+	public String getUserPraised(){
+		String praised = sharedPreference.getString(USER_PRAISED, "");
+		return praised;
+	}
+	public String getUserGroups(){
+		String groups = sharedPreference.getString(USER_GROUPS, "1988-7-9");
+		return groups;
+	}
+	public String getUserFrinds(){
+		String frinds = sharedPreference.getString(USER_FRIENDS, "1988-7-9");
+		return frinds;
+	}
+	
+	public void setUserbirth(String birth){
+		Editor edit = sharedPreference.edit();
+		edit.putString(USER_BIRTH, birth);
+		edit.commit();
+	}
+	public void setUserPraised(String birth){
+		Editor edit = sharedPreference.edit();
+		edit.putString(USER_PRAISED, birth);
+		edit.commit();
+	}
+	public void setUserGroups(String birth){
+		Editor edit = sharedPreference.edit();
+		edit.putString(USER_GROUPS, birth);
+		edit.commit();
+	}
+	public void setUserFrinds(String frinds){
+		Editor edit = sharedPreference.edit();
+		edit.putString(USER_FRIENDS, frinds);
+		edit.commit();
+	}
+	
 	public String getToken(){
 		String token = sharedPreference.getString(TOKEN_ID, "123");
 		return token;
@@ -249,6 +292,17 @@ public class MyPreference {
 	public void setUserSex(String userSex){
 		Editor edit = sharedPreference.edit();
 		edit.putString(USER_SEX, userSex);
+		edit.commit();
+	}
+	
+	public String getUserFact(){
+		String userFat = sharedPreference.getString(USER_FAT, "未收藏");
+		return userFat;
+	}
+	
+	public void setFact(String userFat){
+		Editor edit = sharedPreference.edit();
+		edit.putString(USER_FAT, userFat);
 		edit.commit();
 	}
 	

@@ -21,7 +21,7 @@
                 android:orientation="vertical"
                 android:paddingLeft="10dip"
                 android:paddingRight="10dip"
-                android:paddingTop="@dimen/x200" >
+                android:paddingTop="@dimen/x160" >
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -32,11 +32,16 @@
                     <TextView
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dip"
+                        android:layout_marginBottom="40dip"
                         android:gravity="center"
-                        android:text="不夜程"
+                        android:text="不 夜 程"
                         android:textColor="#7835A3"
-                        android:textSize="@dimen/x45" />
+                        android:shadowDy="3"
+                        android:shadowDx="1"
+                        android:shadowRadius="2"
+                       android:shadowColor="#B881DB"
+                        android:textSize="@dimen/x55" />
+                    
 
                      <LinearLayout
                     android:layout_width="fill_parent"

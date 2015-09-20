@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,6 +26,7 @@ import com.hangzhou.tonight.util.FileUtils;
 import com.hangzhou.tonight.util.HttpRequest;
 import com.hangzhou.tonight.util.JsonResolveUtils;
 import com.hangzhou.tonight.util.JsonUtils;
+import com.hangzhou.tonight.util.MyPreference;
 import com.hangzhou.tonight.util.PreferenceConstants;
 import com.hangzhou.tonight.util.RC4Utils;
 
@@ -36,6 +40,18 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 	private TextView tvBack;
 	private EditText etPhone,etPass,etRePass,etYzm;
 	private Button btHuoquyzm,btDone;
+	
+
+	private String uid;
+	private String nick;
+	private String birth;
+	private String sex;
+	private String phone;
+	private String money;
+	private String favorite;
+	private String praised;
+	private String groups;
+	private String friends;
 	
 	String phoneNum,pwd,repwd,code;
 	@Override
@@ -115,11 +131,57 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 				super.onPostExecute(result);
 				if(JsonResolveUtils.resolveuserResult(result)){
 					JsonResolveUtils.resolveuserLogin(result);
+					
+					JSONObject object;
+					try {
+						object = new JSONObject(result);
+						uid = object.getString("uid");
+						nick = object.getString("nick");
+						birth = object.getString("birth");
+						sex = object.getString("sex");
+						phone = object.getString("phone");
+						money = object.getString("money");
+						favorite = object.getString("favorite");
+						praised = object.getString("praised");
+						groups = object.getString("groups");
+						friends = object.getString("friends");
+						
+						
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					MyPreference.getInstance(RegisterActivity.this).setUserId(uid);
+					MyPreference.getInstance(RegisterActivity.this).setTelNumber(phone);
+					MyPreference.getInstance(RegisterActivity.this).setUserSex(sex);
+					MyPreference.getInstance(RegisterActivity.this).setUserName(nick);
+					MyPreference.getInstance(RegisterActivity.this).setUserbirth(birth);
+					MyPreference.getInstance(RegisterActivity.this).setFact(favorite);
+					MyPreference.getInstance(RegisterActivity.this).setUserPraised(praised);
+					MyPreference.getInstance(RegisterActivity.this).setUserGroups(groups);
+					MyPreference.getInstance(RegisterActivity.this).setUserFrinds(friends);
 					Intent intent = new Intent(RegisterActivity.this, MainActivity.class); 
+					
+					
+					/*uid；
+					nick(⽤用户昵称)；
+					birth(如2014-1-1)；
+					sex(1男,0⼥女)；
+					phone；
+					money(余额)；
+					favorite(收藏的活动ID数组)；
+					praised(点赞过的动态ID数组)；
+					groups(加⼊入的群组的map){gid，position(群内
+					位置，1:群主,9:普通成员)，time(加群时间)}；
+					friends(好友uid数组)；
+					*/
 					startActivity(intent);
 					finish();
 				}else{
 					showCustomToast("注册失败，请稍后重试");
+					dismissLoadingDialog();
+					return;
 				}
 			}
 		}.execute();
@@ -130,14 +192,26 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, Object> parms = new HashMap<String, Object>();
 		parms.put("phone", phoneNum);
-		parms.put("password", pwd);
 		parms.put("code", code);
+		parms.put("password", pwd);
+		parms.put("nick", "nickname");
+		parms.put("face", "123sq");
+		parms.put("birth", "1988-9-9");
+		parms.put("sex", "1");
+		
+		/*phone；
+code(验证码，5-10位)；
+password；
+nick(⽤用户昵称)；
+face(图⽚片名称不带扩展名，图⽚片格式为jpg，如头像图
+⽚片名为123sq.jpg，则face=“123sq”)；
+birth(如2014-1-1)；
+sex(1男,0⼥女)*/
 		ArrayList<Object> arry = new ArrayList<Object>();
 		arry.add(0, "userSignUp");
 		arry.add(1, 0);
 		arry.add(2, parms);
-		String data0 = RC4Utils.RC4("mdwi5uh2p41nd4ae23qy4",
-				JsonUtils.list2json(arry));
+		String data0 = RC4Utils.RC4("mdwi5uh2p41nd4ae23qy4",JsonUtils.list2json(arry));
 		
 		String encoded1 = "";
 		try {
@@ -234,6 +308,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener{
 		parms.put("phone", phoneNum);
 		//type(1:注册或绑定⼿手机时 2:忘记密码时)
 		parms.put("type", "1");
+		
 		ArrayList<Object> arry = new ArrayList<Object>();
 		arry.add(0, "getPhoneCode");
 		arry.add(1, 0);

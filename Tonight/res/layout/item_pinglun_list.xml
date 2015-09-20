@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="@dimen/x220"
     android:orientation="horizontal"
-    android:background="#2F2B2F"
+    android:background="#383438"
     android:paddingTop="@dimen/x10"
     android:paddingLeft="@dimen/x20"
     android:paddingRight="@dimen/x20"
@@ -27,7 +27,7 @@
                 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="服务："
+                android:text="评 分："
                 android:textColor="#D1397F"
                 android:textSize="@dimen/x30" />
 
@@ -41,7 +41,7 @@
                 android:textSize="@dimen/x28" />
             
             
-            
+            <!-- 
               <TextView
                 
                 android:layout_width="wrap_content"
@@ -74,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:text="4.5"
                 android:textColor="@color/gray"
-                android:textSize="@dimen/x28" />
+                android:textSize="@dimen/x28" /> -->
         </LinearLayout>
         
          <LinearLayout
