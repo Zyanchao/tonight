@@ -3,6 +3,9 @@ package com.hangzhou.tonight.module.message.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
@@ -11,8 +14,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.hangzhou.tonight.R;
+import com.hangzhou.tonight.manager.NoticeManager;
+import com.hangzhou.tonight.model.Notice;
 import com.hangzhou.tonight.module.base.fragment.BEmptyListviewFragment;
-import com.hangzhou.tonight.module.base.util.ViewUtil;
 
 /**
  * 验证消息[listview实现,但需去除分割线,且设置高度,去除点击效果]
@@ -22,6 +26,8 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 
 	List<DataModel> listData = null;
 	BaseAdapter adapter;
+	private List<Notice> inviteNotices = new ArrayList<Notice>();
+	private NoticeManager noticeManager;
 
 	@Override protected void doListeners() {}
 
@@ -36,6 +42,13 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 			m.content   = content;
 			listData.add(m);
 		}
+		
+		
+		noticeManager = NoticeManager.getInstance(getActivity());
+		inviteNotices = noticeManager.getNoticeListByTypeAndPage(Notice.ADD_FRIEND,Notice.All,10,1);
+		
+		
+		
 		adapter = new EntityAdapter();
 		mListView.setAdapter(adapter);
 		mListView.setDivider(new ColorDrawable(Color.parseColor("#00000000")));
@@ -45,12 +58,12 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 
 		@Override
 		public int getCount() {
-			return listData.size();
+			return inviteNotices.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			return listData.get(position);
+			return inviteNotices.get(position);
 		}
 
 		@Override
@@ -60,15 +73,19 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
-			DataModel model = listData.get(position);
+			Notice notice = inviteNotices.get(position);
+			
+			
+			
+			
 			ViewHolder hodler = null;
 			if(convertView == null){
 				convertView = View.inflate(getActivity(), R.layout.item_message_fragment_validate_message, null);
 				hodler 		= new ViewHolder(convertView);
 			}
 			hodler = (ViewHolder) convertView.getTag();
-			hodler.tv_username.setText(model.username);
-			hodler.tv_content .setText(model.content);
+			hodler.tv_username.setText(notice.getFrom());
+			hodler.tv_content .setText(notice.getContent());
 			return convertView;
 		}
 		
@@ -86,5 +103,30 @@ public class ValidateMessageFragment extends BEmptyListviewFragment {
 		//用户名、消息内容
 		String username,content;
 	}
+	
+	/*private  String[] resolveuserResult(String json){
+		
+		String[] strings=new String[5];
+		
+		if (json != null) {
+			try {
+				JSONObject object = new JSONObject(json);
+					int state = Integer.valueOf(object.getString("s"));
+					if(state==0){
+						return false;
+					}else if(state==1){
+						return true;
+					}
+				
+			}catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+			
+			return false;
+			
+		}*/
+	
+	
 
 }

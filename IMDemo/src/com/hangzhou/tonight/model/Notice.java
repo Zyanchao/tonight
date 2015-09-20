@@ -17,9 +17,12 @@ public class Notice implements Serializable, Comparable<Notice> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static final int ADD_FRIEND = 1;// 好友请求
+	public static final int ADD_FRIEND = 1;// 验证信息
 	public static final int SYS_MSG = 2; // 系统消息
 	public static final int CHAT_MSG = 3;// 聊天消息
+	public static final int PARISE_MSG = 4;// 赞
+	public static final int REPLY_MSG = 5;// 评论消息
+	public static final int ORDER_MSG = 6;// 订单消息
 	public static final int READ = 0;
 	public static final int UNREAD = 1;
 	public static final int All = 2;

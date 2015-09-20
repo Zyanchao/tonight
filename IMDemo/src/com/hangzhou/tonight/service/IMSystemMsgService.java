@@ -90,9 +90,40 @@ public class IMSystemMsgService extends Service {
 						.getInstance(context);
 				Notice notice = new Notice();
 				// playSound(1, 0); //播放音效
-
+				
+			String tp=message.getTp();
+			if(tp.contains("new_reply")){
+				notice.setTitle("评论");
+				notice.setNoticeType(Notice.REPLY_MSG);
+			}else if(tp.contains("new_praise")){
+				notice.setTitle("赞");
+				notice.setNoticeType(Notice.PARISE_MSG);
+			}else if(tp.contains("apply")){
+				notice.setTitle("验证信息");
+				notice.setNoticeType(Notice.ADD_FRIEND);
+			}else if(tp.contains("system")){
 				notice.setTitle("系统消息");
 				notice.setNoticeType(Notice.SYS_MSG);
+			}else if(tp.contains("del_friend")){
+				notice.setTitle("验证信息");
+				notice.setNoticeType(Notice.ADD_FRIEND);
+			}else if(tp.contains("kick_group")){
+				notice.setTitle("验证信息");
+				notice.setNoticeType(Notice.ADD_FRIEND);
+			}else if(tp.contains("order_state")){
+				notice.setTitle("订单");
+				notice.setNoticeType(Notice.ORDER_MSG);
+			}else{
+				
+			}
+				
+				
+				
+				
+				
+
+				//notice.setTitle("系统消息");
+				//notice.setNoticeType(Notice.SYS_MSG);
 				notice.setFrom(packetz.getFrom());
 				notice.setContent(message.getBody());
 				notice.setNoticeTime(DateUtil.date2Str(Calendar.getInstance(),
